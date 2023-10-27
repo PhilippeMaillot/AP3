@@ -1,14 +1,16 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql'); // Importez la bibliothèque MySQL
+const db = require('./config/db'); // Importez la configuration de la base de données
+app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
+const cors = require('cors');
 
-// Configuration de la connexion à la base de données
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'omnimatch'
-});
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,PUT,POST,DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+}
+
+app.use(cors(corsOptions));
 
 // Connexion à la base de données
 db.connect((err) => {
