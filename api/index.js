@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
-const db = require('./config/db'); // Importez la configuration de la base de données
 app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
 const cors = require('cors');
+const fieldController = require('./controllers/fieldController');
+const db = require('./config/db');
 
 const corsOptions = {
   origin: '*',
@@ -23,10 +24,10 @@ db.connect((err) => {
 
 // Routes de l'API
 app.get('/sportfields', (req, res) => {
-  db.query('SELECT * FROM sportfields', (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des données : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query('SELECT * FROM sportfields', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -35,10 +36,10 @@ app.get('/sportfields', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des données : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query('SELECT * FROM users', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -47,10 +48,10 @@ app.get('/users', (req, res) => {
 });
 
 app.get('/trainingreservations', (req, res) => {
-  db.query('SELECT * FROM trainingreservation', (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des données : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query('SELECT * FROM trainingreservation', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -59,10 +60,10 @@ app.get('/trainingreservations', (req, res) => {
 });
 
 app.get('/tournamentparticipations', (req, res) => {
-  db.query('SELECT * FROM tournamentparticipation', (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des données : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query('SELECT * FROM tournamentparticipation', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -71,10 +72,10 @@ app.get('/tournamentparticipations', (req, res) => {
 });
 
 app.get('/tournaments', (req, res) => {
-  db.query('SELECT * FROM tournament', (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des données : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query('SELECT * FROM tournament', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -83,10 +84,10 @@ app.get('/tournaments', (req, res) => {
 });
 
 app.get('/clubs', (req, res) => {
-  db.query('SELECT * FROM clubs', (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des données : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query('SELECT * FROM clubs', (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des données : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -96,10 +97,10 @@ app.get('/clubs', (req, res) => {
 
 app.get('/', (req, res) => {
   // Récupérez la liste des noms de table depuis votre base de données
-  db.query("SHOW TABLES", (error, results) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des tables : ' + error.message);
-      res.status(500).json({ error: 'Erreur serveur' });
+  db.query("SHOW TABLES", (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des tables : ' + err.message);
+      res.status(500).json({ err: 'Erreur serveur' });
       return;
     }
 
@@ -110,8 +111,7 @@ app.get('/', (req, res) => {
   });
 });
 
-
-
+app.post('/sportfields/add', async (req, res) => {fieldController.addField(req, res)});
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');
