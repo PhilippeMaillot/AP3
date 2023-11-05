@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
 const cors = require('cors');
 const fieldController = require('./controllers/fieldController');
+const clubController = require('./controllers/clubController');
 const db = require('./config/db');
 
 const corsOptions = {
@@ -112,6 +113,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/sportfields/add', async (req, res) => {fieldController.addField(req, res)});
+
+app.post('/clubs/add', (req, res) => {clubController.addClub(req, res)});
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');
