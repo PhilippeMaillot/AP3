@@ -64,7 +64,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-xl-4">
-                            <form><input class="form-control" type="text" placeholder="Nom du tournoi"><input class="form-control" type="date"><select class="form-select">
+                            <form id="reservationForm"><input class="form-control" type="text" placeholder="Nom du tournoi"><input class="form-control" type="date"><select class="form-select">
                                     <optgroup>
                                         <option value="11" selected="" disabled="true">Choix du sport</option>
                                         <option value="12">FootBall</option>
@@ -73,16 +73,8 @@
                                     </optgroup>
                                 </select><input class="form-control" type="search" placeholder="Ville"><input class="form-control" type="search" placeholder="Complexe sportif"><input class="btn btn-primary" type="submit"></form>
                         </div>
-                        <div class="col-md-6 col-xl-4">
-                            <div class="carousel slide" data-bs-ride="false" id="carousel-1">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active"></div>
-                                    <div class="carousel-item"><img class="w-100 d-block" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png" alt="Slide Image"></div>
-                                    <div class="carousel-item"><img class="w-100 d-block" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png" alt="Slide Image"></div>
-                                </div>
-                                <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
-                                <div class="carousel-indicators"><button type="button" data-bs-target="#carousel-1" data-bs-slide-to="0" class="active"></button> <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="1"></button> <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="2"></button></div>
-                            </div>
+                        <div class="col-md-6 col-xl-4" id="scheduleDisplay">
+                            <!-- Ici, les horaires seront affichés dynamiquement -->
                         </div>
                         <div class="col-xl-3 col-xxl-3"><iframe allowfullscreen="" frameborder="0" src="https://cdn.bootstrapstudio.io/placeholders/map.html" width="100%" height="400"></iframe></div>
                     </div>
@@ -121,6 +113,48 @@
         // Appeler la fonction pour mettre à jour le nom du club
         updateClubName();
     </script>
+
+<script>
+    // Simulation de récupération de données d'une API (à adapter à votre API réelle)
+    function fetchScheduleData(date, city, venue) {
+        // Ici, vous effectueriez une véritable requête API pour obtenir les horaires disponibles
+        // Pour cet exemple, nous allons simuler des données factices
+        const fakeScheduleData = [
+            { time: "09:00 AM", available: true },
+            { time: "11:00 AM", available: false },
+            { time: "02:00 PM", available: true },
+        ];
+
+        // Cette fonction simule la création de la liste des horaires disponibles
+        const scheduleList = document.createElement("ul");
+        fakeScheduleData.forEach(schedule => {
+            const scheduleItem = document.createElement("li");
+            scheduleItem.textContent = `Heure : ${schedule.time}, Disponible : ${schedule.available ? "Oui" : "Non"}`;
+            scheduleList.appendChild(scheduleItem);
+        });
+
+        return scheduleList;
+    }
+
+    // Gestion de la soumission du formulaire
+    document.getElementById("tournamentForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Récupération des valeurs du formulaire
+        const tournamentName = document.getElementById("tournamentName").value;
+        const tournamentDate = document.getElementById("tournamentDate").value;
+        const sportSelect = document.getElementById("sportSelect").value;
+        const cityInput = document.getElementById("cityInput").value;
+        const venueInput = document.getElementById("venueInput").value;
+
+        // Affichage des horaires disponibles
+        const scheduleDisplay = document.getElementById("scheduleDisplay");
+        const scheduleList = fetchScheduleData(tournamentDate, cityInput, venueInput);
+
+        scheduleDisplay.innerHTML = ""; // Effacer le contenu précédent
+        scheduleDisplay.appendChild(scheduleList);
+    });
+</script>
 </body>
 
 </html>

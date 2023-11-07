@@ -4,6 +4,8 @@ app.use(express.json()); // Utilisez le middleware express.json() pour analyser 
 const cors = require('cors');
 const fieldController = require('./controllers/fieldController');
 const clubController = require('./controllers/clubController');
+const tournamentController = require('./controllers/tournamentController');
+const usedFieldsController = require('./controllers/usedFieldsController');
 const db = require('./config/db');
 
 const corsOptions = {
@@ -115,6 +117,10 @@ app.get('/', (req, res) => {
 app.post('/sportfields/add', async (req, res) => {fieldController.addField(req, res)});
 
 app.post('/clubs/add', (req, res) => {clubController.addClub(req, res)});
+
+app.post('/tournament/add', (req, res) => {tournamentController.addTournament(req, res)});
+
+app.post('/sportfields/list', (req, res) => {usedFieldsController.getUFields(req, res)});
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');

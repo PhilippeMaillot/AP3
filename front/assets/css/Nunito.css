@@ -627,3 +627,28 @@
 	font-display: swap;
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+/* Masquer la barre de défilement par défaut */
+html {
+	scrollbar-width: thin;
+	scrollbar-color: transparent transparent; /* Couleur de la barre et du fond transparente */
+  }
+  /* Personnaliser la barre de défilement */
+html::-webkit-scrollbar {
+	width: 8px; /* Largeur de la barre de défilement */
+  }
+  
+  html::-webkit-scrollbar-thumb {
+	background-color: #888; /* Couleur de la poignée de la barre de défilement */
+	border-radius: 4px; /* Rayon des bords de la poignée de la barre de défilement */
+  }
+  
+  html::-webkit-scrollbar-thumb:hover {
+	background-color: #555; /* Couleur de la poignée de la barre de défilement au survol */
+  }
+  
+  html::-webkit-scrollbar-track {
+	background-color: transparent; /* Couleur de fond de la barre de défilement */
+  }
+  
+  
+  
