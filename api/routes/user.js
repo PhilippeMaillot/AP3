@@ -17,4 +17,6 @@ router.get('/', (req, res) => {
 
 router.post('/id', async (req, res) => {clubController.getUserId(req, res)});
 
+router.post('/login', async (req, res) => {clubController.login(req, res)});
+
 module.exports = router;

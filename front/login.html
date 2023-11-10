@@ -21,10 +21,10 @@
                 <div class="col-md-6 col-xl-4" style="margin-bottom: -54px;padding-bottom: 0px;">
                     <div class="card mb-5">
                         <div class="card-body d-flex flex-column align-items-center pt-sm-5 mt-sm-0 mb-sm-0" style="margin-top: -33px;">
-                            <form class="text-center" method="post">
-                                <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-                                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-                                <div class="mb-3"><a href="town.html" style="text-decoration: none;"><button class="btn btn-primary d-block w-100" type="submit">Connexion</button></a></div><a href="forgot-password.html">
+                            <form class="text-center" method="post" id="loginForm">
+                                <div class="mb-3"><input id="user_mail" class="form-control" type="email" name="email" placeholder="Email"></div>
+                                <div class="mb-3"><input id="user_password" class="form-control" type="password" name="password" placeholder="Password"></div>
+                                <div class="mb-3"><a style="text-decoration: none;"><button class="btn btn-primary d-block w-100" type="submit">Connexion</button></a></div><a href="forgot-password.html">
                                     <p class="text-muted">Mot de passe oublié ?</p>
                                 </a>
                             </form>
@@ -36,6 +36,52 @@
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/theme.js?h=79f403485707cf2617c5bc5a2d386bb0"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addClubForm = document.getElementById('loginForm');
+        
+            addClubForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+        
+                // Collect form data
+                const club_mail = document.getElementById('user_mail').value;
+                const password_hash = document.getElementById('user_password').value;
+
+                console.log(club_mail);
+                console.log(password_hash);
+        
+                // Create a data object
+                const formData = {
+                    club_mail,
+                    password_hash
+                };
+        
+                // Convert data to JSON
+                const jsonData = JSON.stringify(formData);
+                console.log(jsonData);
+        
+                // Make a POST request using Axios
+                axios.post('http://localhost:8080/user/login', jsonData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function (response) {
+                    // Handle the success response
+                    console.log('Response:', response.data);
+                    // Add any additional handling code here
+                })
+                .catch(function (error) {
+                    // Handle errors
+                    console.error('Error:', error);
+                    // Add any error handling code here
+                });
+            });
+
+            console.log('JavaScript code loaded successfully!');
+        });
+</script>
 </body>
 
 </html>

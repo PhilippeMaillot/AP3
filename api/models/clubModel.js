@@ -1,4 +1,4 @@
-class ClubModel {
+  class ClubModel {
   static createClubs(db, req, cb) {
     const { club_name, club_adress, club_city, sport_type, Mail, password_hash } = req.body;
 
@@ -24,6 +24,11 @@ class ClubModel {
   static getUserId(db, id_user, cb) {
     const query = 'SELECT * FROM users WHERE id_user = ?';
     db.query(query, [id_user], cb);
+  }
+
+  static login(db, email, cb) {
+    const query = 'SELECT * FROM users WHERE club_mail = ?';
+    db.query(query, [email], cb);
   }
 }
 

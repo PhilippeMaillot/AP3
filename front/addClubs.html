@@ -81,9 +81,9 @@
                                 <select class="form-select" id="clubSport">
                                     <optgroup>
                                         <option value="11" selected="" disabled="true">Choix du sport</option>
-                                        <option value="12">FootBall</option>
-                                        <option value="13">Basketball</option>
-                                        <option value="14">Volley-ball</option>
+                                        <option value="football">FootBall</option>
+                                        <option value="basketball">Basketball</option>
+                                        <option value="volley-ball">Volley-ball</option>
                                     </optgroup>
                                 </select>
                                 <input class="form-control" type="email" placeholder="Email" id="clubEmail">
@@ -107,61 +107,63 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/theme.js?h=79f403485707cf2617c5bc5a2d386bb0"></script>
+    <script src="assets/js/theme.js?h=79f403485707cf2617c5bc5a2d386bb0"></script> 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        const addClubForm = document.querySelector('#addClubForm');
-        addClubForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            console.log("Formulaire soumis");
-    
-            const clubName = document.querySelector('#clubName').value;
-            const clubAddress = document.querySelector('#clubAddress').value;
-            const clubCity = document.querySelector('#clubCity').value;
-            const clubSport = document.querySelector('#clubSport').value;
-            const clubEmail = document.querySelector('#clubEmail').value;
-            const clubPassword = document.querySelector('#clubPassword').value;
-            console.log("Valeurs du formulaire extraites");
-    
-            const hashedPassword = await bcrypt.hash(clubPassword, 10);
-            console.log("Mot de passe haché");
-    
-            const data = {
-                name: clubName,
-                address: clubAddress,
-                city: clubCity,
-                sport: clubSport,
-                email: clubEmail,
-                password: hashedPassword
-            };
-            console.log("Données du club prêtes");
-    
-            try {
-                console.log("Tentative d'envoi de la requête au serveur");
-                const response = await axios.post('http://localhost:3000/club/add', data);
-                console.log("Réponse du serveur:", response);
-    
-                Swal.fire({
-                    title: 'Club ajouté avec succès!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    console.log("Redirection vers clubs.html");
-                    window.location.href = 'clubs.html';
+        document.addEventListener('DOMContentLoaded', function () {
+            const addClubForm = document.getElementById('addClubForm');
+        
+            addClubForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+        
+                // Collect form data
+                const club_name = document.getElementById('clubName').value;
+                const club_adress = document.getElementById('clubAddress').value;
+                const club_city = document.getElementById('clubCity').value;
+                const sport_type = document.getElementById('clubSport').value;
+                const Mail = document.getElementById('clubEmail').value;
+                const password_hash = document.getElementById('clubPassword').value;
+
+                console.log(club_name);
+                console.log(club_adress);
+                console.log(club_city);
+                console.log(sport_type);
+        
+                // Create a data object
+                const formData = {
+                    club_name,
+                    club_adress,
+                    club_city,
+                    sport_type,
+                    Mail,
+                    password_hash
+                };
+        
+                // Convert data to JSON
+                const jsonData = JSON.stringify(formData);
+                console.log(jsonData);
+        
+                // Make a POST request using Axios
+                axios.post('http://localhost:8080/club/add', jsonData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function (response) {
+                    // Handle the success response
+                    console.log('Response:', response.data);
+                    // Add any additional handling code here
+                })
+                .catch(function (error) {
+                    // Handle errors
+                    console.error('Error:', error);
+                    // Add any error handling code here
                 });
-            } catch (error) {
-                console.error("Erreur lors de l'envoi de la requête:", error);
-    
-                Swal.fire({
-                    title: 'Erreur lors de l\'ajout du club',
-                    text: error.response.data.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
+            });
+
+            console.log('JavaScript code loaded successfully!');
         });
-    </script>
-    
+</script>   
 </body>
 
 </html>
