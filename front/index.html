@@ -128,7 +128,7 @@
         // Fonction pour effectuer une requête à l'API et mettre à jour le nom du club
         function updateClubName() {
             // Effectuer une requête à l'API en utilisant Fetch
-            fetch('http://localhost:8080/clubs')
+            fetch('http://localhost:8080/club')
                 .then(response => response.json())
                 .then(clubs => {
                     // Rechercher le club avec id_club : 3

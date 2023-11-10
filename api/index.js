@@ -1,20 +1,19 @@
 const express = require('express');
 const app = express();
-app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
 const cors = require('cors');
-const fieldController = require('./controllers/fieldController');
-const clubController = require('./controllers/clubController');
-const tournamentController = require('./controllers/tournamentController');
-const usedFieldsController = require('./controllers/usedFieldsController');
+const bcrypt = require('bcrypt');
 const db = require('./config/db');
-
+const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
+const clubRouter = require('./routes/club');
+const fieldRouter = require('./routes/field');
+const trainingRouter = require('./routes/training');
+const tournamentRouter = require('./routes/tournament');
 const corsOptions = {
   origin: '*',
   methods: 'GET,PUT,POST,DELETE',
   allowedHeaders: 'Content-Type, Authorization',
 }
-
-app.use(cors(corsOptions));
 
 // Connexion à la base de données
 db.connect((err) => {
@@ -25,102 +24,16 @@ db.connect((err) => {
   }
 });
 
+app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
+app.use(cors(corsOptions));
+
 // Routes de l'API
-app.get('/sportfields', (req, res) => {
-  db.query('SELECT * FROM sportfields', (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des données : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des données : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-app.get('/trainingreservations', (req, res) => {
-  db.query('SELECT * FROM trainingreservation', (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des données : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-app.get('/tournamentparticipations', (req, res) => {
-  db.query('SELECT * FROM tournamentparticipation', (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des données : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-app.get('/tournaments', (req, res) => {
-  db.query('SELECT * FROM tournament', (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des données : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-app.get('/clubs', (req, res) => {
-  db.query('SELECT * FROM clubs', (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des données : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-app.get('/', (req, res) => {
-  // Récupérez la liste des noms de table depuis votre base de données
-  db.query("SHOW TABLES", (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des tables : ' + err.message);
-      res.status(500).json({ err: 'Erreur serveur' });
-      return;
-    }
-
-    // Extrayez les noms de table à partir des résultats
-    const tables = results.map(result => result[`Tables_in_${db.config.database}`]);
-
-    res.status(200).json(tables);
-  });
-});
-
-app.post('/sportfields/add', async (req, res) => {fieldController.addField(req, res)});
-
-app.post('/clubs/add', (req, res) => {clubController.addClub(req, res)});
-
-app.post('/tournament/add', (req, res) => {tournamentController.addTournament(req, res)});
-
-app.post('/sportfields/list', (req, res) => {usedFieldsController.getUFields(req, res)});
+app.use('/', indexRouter);
+app.use('/user', userRouter);
+app.use('/club', clubRouter);
+app.use('/field', fieldRouter);
+app.use('/training', trainingRouter);
+app.use('/tournament', tournamentRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');

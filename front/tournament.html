@@ -64,7 +64,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-xl-4">
-                            <form id="reservationForm"><input class="form-control" type="text" placeholder="Nom du tournoi"><input class="form-control" type="date"><select class="form-select">
+                            <form id="tournamentForm"><input class="form-control" type="text" placeholder="Nom du tournoi"><input class="form-control" type="date"><select class="form-select">
                                     <optgroup>
                                         <option value="11" selected="" disabled="true">Choix du sport</option>
                                         <option value="12">FootBall</option>
@@ -113,48 +113,6 @@
         // Appeler la fonction pour mettre à jour le nom du club
         updateClubName();
     </script>
-
-<script>
-    // Simulation de récupération de données d'une API (à adapter à votre API réelle)
-    function fetchScheduleData(date, city, venue) {
-        // Ici, vous effectueriez une véritable requête API pour obtenir les horaires disponibles
-        // Pour cet exemple, nous allons simuler des données factices
-        const fakeScheduleData = [
-            { time: "09:00 AM", available: true },
-            { time: "11:00 AM", available: false },
-            { time: "02:00 PM", available: true },
-        ];
-
-        // Cette fonction simule la création de la liste des horaires disponibles
-        const scheduleList = document.createElement("ul");
-        fakeScheduleData.forEach(schedule => {
-            const scheduleItem = document.createElement("li");
-            scheduleItem.textContent = `Heure : ${schedule.time}, Disponible : ${schedule.available ? "Oui" : "Non"}`;
-            scheduleList.appendChild(scheduleItem);
-        });
-
-        return scheduleList;
-    }
-
-    // Gestion de la soumission du formulaire
-    document.getElementById("tournamentForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // Récupération des valeurs du formulaire
-        const tournamentName = document.getElementById("tournamentName").value;
-        const tournamentDate = document.getElementById("tournamentDate").value;
-        const sportSelect = document.getElementById("sportSelect").value;
-        const cityInput = document.getElementById("cityInput").value;
-        const venueInput = document.getElementById("venueInput").value;
-
-        // Affichage des horaires disponibles
-        const scheduleDisplay = document.getElementById("scheduleDisplay");
-        const scheduleList = fetchScheduleData(tournamentDate, cityInput, venueInput);
-
-        scheduleDisplay.innerHTML = ""; // Effacer le contenu précédent
-        scheduleDisplay.appendChild(scheduleList);
-    });
-</script>
 </body>
 
 </html>
