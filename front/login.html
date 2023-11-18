@@ -40,37 +40,35 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addClubForm = document.getElementById('loginForm');
-        
+
             addClubForm.addEventListener('submit', function (event) {
                 event.preventDefault(); // Prevent the default form submission behavior
-        
+
                 // Collect form data
                 const club_mail = document.getElementById('user_mail').value;
-                const password_hash = document.getElementById('user_password').value;
+                const password = document.getElementById('user_password').value;
 
                 console.log(club_mail);
-                console.log(password_hash);
-        
-                // Create a data object
-                const formData = {
-                    club_mail,
-                    password_hash
-                };
-        
-                // Convert data to JSON
-                const jsonData = JSON.stringify(formData);
-                console.log(jsonData);
-        
-                // Make a POST request using Axios
-                axios.post('http://localhost:8080/user/login', jsonData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                console.log(password);
+
+                // Make a GET request to retrieve user information from the API
+                axios.get(`http://localhost:8080/user?club_mail=${club_mail}`)
                 .then(function (response) {
                     // Handle the success response
                     console.log('Response:', response.data);
-                    // Add any additional handling code here
+
+                    // Check if the password matches
+                    const bcrypt = dcodeIO.bcrypt;
+                    bcrypt.compare(password, response.data.password_hash, function(err, result) {
+                        if (result) {
+                            console.log('Password matches!');
+                            // Add any additional handling code here
+                        } else {
+                            console.log('Password does not match!');
+                            console.log('password_hash:', response.data.password_hash)
+                            // Add any additional handling code here
+                        }
+                    });
                 })
                 .catch(function (error) {
                     // Handle errors
@@ -81,7 +79,7 @@
 
             console.log('JavaScript code loaded successfully!');
         });
-</script>
+    </script>
 </body>
 
 </html>

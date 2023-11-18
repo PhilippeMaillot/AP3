@@ -14,13 +14,13 @@ class ClubController {
                 service: 'gmail',
                 auth: {
                   user: 'maillotphilippe78@gmail.com',
-                  pass: 'sziz crev rbar fmwu'
+                  pass: ''
                 }
               });
               
               const mailOptions = {
                 from: 'maillotphilippe78@gmail.com',
-                to: 'maillotphilippe78@gmail.com',
+                to: 'opheliedvst@gmail.com',
                 subject: 'Confirmation d\'ajout de club',
                 text: `Le club ${req.body.club_name} a bien été ajouté !`
               };
