@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css?h=97380e22c8933e9aa79cbc2390b9f15a">
     <link rel="stylesheet" href="assets/css/Nunito.css?h=a19b820464cdca014829ebfa047ba5fb">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -71,10 +73,9 @@
                                         <option value="13">Basketball</option>
                                         <option value="14">Volley-ball</option>
                                     </optgroup>
-                                </select><input class="form-control" list="townList" id="villeSelect" name="ville">
-                                <datalist id="townList">
+                                </select><select class="form-control" id="villeSelect" name="ville">
                                     <!-- Les options seront générées dynamiquement -->
-                                </datalist><input class="form-control" type="search" placeholder="Complexe sportif"><input class="btn btn-primary" type="submit"></form>
+                                </select><input class="form-control" type="search" placeholder="Complexe sportif"><input class="btn btn-primary" type="submit"></form>
                         </div>
                         <div class="col-md-6 col-xl-4" id="scheduleDisplay">
                             <!-- Ici, les horaires seront affichés dynamiquement -->
@@ -117,26 +118,23 @@
         updateClubName();
 
         // Fonction pour récupérer les villes et les ajouter à la datalist
-function updateTownList() {
-    // Effectuer une requête à l'API en utilisant Fetch
+        function updateTownList() {
     fetch('http://localhost:8080/town')
         .then(response => response.json())
         .then(towns => {
-            // Obtenir une référence à la datalist
-            const townList = document.getElementById('townList');
-
-            // Pour chaque ville, créer une nouvelle option et l'ajouter à la datalist
+            const villeSelect = document.getElementById('villeSelect');
             towns.forEach(town => {
                 const option = document.createElement('option');
                 option.value = town.town_name;
-                townList.appendChild(option);
+                option.text = town.town_name;
+                villeSelect.appendChild(option);
             });
+            $(villeSelect).select2();
         })
         .catch(error => {
             console.error('Une erreur s\'est produite lors de la récupération des données de l\'API : ', error);
         });
 }
-
 // Appeler la fonction pour mettre à jour la liste des villes
 updateTownList();
 
