@@ -20,7 +20,7 @@ class ClubController {
               
               const mailOptions = {
                 from: 'maillotphilippe78@gmail.com',
-                to: 'opheliedvst@gmail.com',
+                to: '',
                 subject: 'Confirmation d\'ajout de club',
                 text: `Le club ${req.body.club_name} a bien été ajouté !`
               };
