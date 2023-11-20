@@ -37,6 +37,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/theme.js?h=79f403485707cf2617c5bc5a2d386bb0"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addClubForm = document.getElementById('loginForm');
@@ -52,29 +53,29 @@
                 console.log(password);
 
                 // Make a GET request to retrieve user information from the API
-                axios.get(`http://localhost:8080/user?club_mail=${club_mail}`)
-                .then(function (response) {
-                    // Handle the success response
-                    console.log('Response:', response.data);
+                //ici je veux récuperer les données qui sont dans mon api avec la fonction login qui est dans mon controller
 
-                    // Check if the password matches
-                    const bcrypt = dcodeIO.bcrypt;
-                    bcrypt.compare(password, response.data.password_hash, function(err, result) {
-                        if (result) {
-                            console.log('Password matches!');
-                            // Add any additional handling code here
-                        } else {
-                            console.log('Password does not match!');
-                            console.log('password_hash:', response.data.password_hash)
-                            // Add any additional handling code here
+                const formData = {
+                    club_mail: club_mail,
+                    password: password
+                };
+                const jsonData = JSON.stringify(formData);
+                console.log(jsonData);
+
+                axios.post('http://localhost:8080/user/login', jsonData, {
+                        headers: {
+                            'Content-Type': 'application/json'
                         }
-                    });
                 })
-                .catch(function (error) {
-                    // Handle errors
-                    console.error('Error:', error);
-                    // Add any error handling code here
-                });
+                    .then(function (response) {
+                        // Handle success
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        // Handle errors
+                        console.error('Error:', error);
+                        // Add any error handling code here
+                    });
             });
 
             console.log('JavaScript code loaded successfully!');

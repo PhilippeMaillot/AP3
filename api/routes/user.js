@@ -17,6 +17,13 @@ router.get('/', (req, res) => {
 
 router.post('/id', async (req, res) => {clubController.getUserId(req, res)});
 
-router.post('/login', async (req, res) => {clubController.login(req, res)});
+router.post('/login', async (req, res) => {
+    try {
+        await clubController.login(req, res);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;

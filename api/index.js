@@ -9,6 +9,7 @@ const clubRouter = require('./routes/club');
 const fieldRouter = require('./routes/field');
 const trainingRouter = require('./routes/training');
 const tournamentRouter = require('./routes/tournament');
+const townRouter = require('./routes/town');
 const corsOptions = {
   origin: '*',
   methods: 'GET,PUT,POST,DELETE',
@@ -34,6 +35,7 @@ app.use('/club', clubRouter);
 app.use('/field', fieldRouter);
 app.use('/training', trainingRouter);
 app.use('/tournament', tournamentRouter);
+app.use('/town', townRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');
