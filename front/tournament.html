@@ -71,7 +71,10 @@
                                         <option value="13">Basketball</option>
                                         <option value="14">Volley-ball</option>
                                     </optgroup>
-                                </select><input class="form-control" type="search" placeholder="Ville"><input class="form-control" type="search" placeholder="Complexe sportif"><input class="btn btn-primary" type="submit"></form>
+                                </select><input class="form-control" list="townList" id="villeSelect" name="ville">
+                                <datalist id="townList">
+                                    <!-- Les options seront générées dynamiquement -->
+                                </datalist><input class="form-control" type="search" placeholder="Complexe sportif"><input class="btn btn-primary" type="submit"></form>
                         </div>
                         <div class="col-md-6 col-xl-4" id="scheduleDisplay">
                             <!-- Ici, les horaires seront affichés dynamiquement -->
@@ -112,7 +115,32 @@
 
         // Appeler la fonction pour mettre à jour le nom du club
         updateClubName();
+
+        // Fonction pour récupérer les villes et les ajouter à la datalist
+function updateTownList() {
+    // Effectuer une requête à l'API en utilisant Fetch
+    fetch('http://localhost:8080/town')
+        .then(response => response.json())
+        .then(towns => {
+            // Obtenir une référence à la datalist
+            const townList = document.getElementById('townList');
+
+            // Pour chaque ville, créer une nouvelle option et l'ajouter à la datalist
+            towns.forEach(town => {
+                const option = document.createElement('option');
+                option.value = town.town_name;
+                townList.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Une erreur s\'est produite lors de la récupération des données de l\'API : ', error);
+        });
+}
+
+// Appeler la fonction pour mettre à jour la liste des villes
+updateTownList();
+
     </script>
 </body>
 
-</html>
+</html> 
