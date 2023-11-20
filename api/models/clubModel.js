@@ -1,9 +1,9 @@
   class ClubModel {
   static createClubs(db, req, cb) {
-    const { club_name, club_adress, club_city, sport_type, Mail, password_hash } = req.body;
+    const { club_name, club_adress, club_town, sport_type, Mail, password_hash } = req.body;
 
-    const query = "INSERT INTO clubs ( club_name, club_adress, club_city, sport_type, Mail) VALUES ( ?, ?, ?, ?, ?)";
-    db.query(query, [club_name, club_adress, club_city, sport_type, Mail], (err, result) => {
+    const query = "INSERT INTO clubs ( club_name, club_adress, club_town, sport_type, Mail) VALUES ( ?, ?, ?, ?, ?)";
+    db.query(query, [club_name, club_adress, club_town, sport_type, Mail], (err, result) => {
       if (err) {
         cb(err, null);
       } else {

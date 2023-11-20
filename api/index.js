@@ -28,6 +28,13 @@ db.connect((err) => {
 app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
 app.use(cors(corsOptions));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5500"); // Autoriser spécifiquement ce domaine
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 // Routes de l'API
 app.use('/', indexRouter);
 app.use('/user', userRouter);

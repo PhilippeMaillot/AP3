@@ -77,7 +77,9 @@
                                 <form id="addClubForm">
                                     <input class="form-control" type="text" placeholder="Nom du club" id="clubName">
                                     <input class="form-control" type="text" placeholder="Adresse" id="clubAddress">
-                                    <input class="form-control" type="text" placeholder="Ville" id="clubCity">
+                                <select class="form-control" id="clubTown" name="ville">
+                                    <!-- Les options seront générées dynamiquement -->
+                                </select>
                                     <select class="form-select" id="clubSport">
                                         <optgroup>
                                             <option value="11" selected="" disabled="true">Choix du sport</option>
@@ -120,7 +122,7 @@
                     // Collect form data
                     const club_name = document.getElementById('clubName').value;
                     const club_adress = document.getElementById('clubAddress').value;
-                    const club_city = document.getElementById('clubCity').value;
+                    const club_town = document.getElementById('clubTown').value;
                     const sport_type = document.getElementById('clubSport').value;
                     const Mail = document.getElementById('clubEmail').value;
                     const password = document.getElementById('clubPassword').value;
@@ -134,7 +136,7 @@
                         alert('Veuillez remplir le champ "Adresse"');
                         return;
                     }
-                    if (club_city === '') {
+                    if (club_town === '') {
                         alert('Veuillez remplir le champ "Ville"');
                         return;
                     }
@@ -167,7 +169,7 @@
                     const formData = {
                         club_name: sanitizeHtml(club_name),
                         club_adress: sanitizeHtml(club_adress),
-                        club_city: sanitizeHtml(club_city),
+                        club_town: sanitizeHtml(club_town),
                         sport_type: sanitizeHtml(sport_type),
                         Mail: sanitizeHtml(Mail),
                         password_hash: sanitizeHtml(bcrypt.hashSync(password, 10))
@@ -196,7 +198,36 @@
 
                 console.log('JavaScript code loaded successfully!');
             });
-        </script>   
+
+
+            function updateTownList() {
+    fetch('http://localhost:8080/town')
+        .then(response => response.json())
+        .then(towns => {
+            const clubTown = document.getElementById('clubTown');
+            // Ajouter une option par défaut
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.text = "Choisir la ville";
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            clubTown.appendChild(defaultOption);
+            // Ajouter les villes
+            towns.forEach(town => {
+                const option = document.createElement('option');
+                option.value = town.town_name;
+                option.text = town.town_name;
+                clubTown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Une erreur s\'est produite lors de la récupération des données de l\'API : ', error);
+        });
+}
+// Appeler la fonction pour mettre à jour la liste des villes
+updateTownList();
+
+        </script>
     </body>
 
     </html>
