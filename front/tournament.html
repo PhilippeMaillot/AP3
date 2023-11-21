@@ -69,13 +69,17 @@
                             <form id="tournamentForm"><input class="form-control" type="text" placeholder="Nom du tournoi"><input class="form-control" type="date"><select class="form-select">
                                     <optgroup>
                                         <option value="11" selected="" disabled="true">Choix du sport</option>
-                                        <option value="12">FootBall</option>
-                                        <option value="13">Basketball</option>
-                                        <option value="14">Volley-ball</option>
+                                        <option value="football">FootBall</option>
+                                        <option value="basketball">Basketball</option>
+                                        <option value="volley-ball">Volley-ball</option>
                                     </optgroup>
                                 </select><select class="form-control" id="villeSelect" name="ville">
                                     <!-- Les options seront générées dynamiquement -->
-                                </select><input class="form-control" type="search" placeholder="Complexe sportif"><input class="btn btn-primary" type="submit"></form>
+                                </select>
+                                <select class="form-control" id="fieldSelect" name="field">
+                                    <!-- Les options seront générées dynamiquement -->
+                                </select>
+                                <input class="btn btn-primary" type="submit"></form>
                         </div>
                         <div class="col-md-6 col-xl-4" id="scheduleDisplay">
                             <!-- Ici, les horaires seront affichés dynamiquement -->
