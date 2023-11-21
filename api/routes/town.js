@@ -14,4 +14,11 @@ router.get('/', (req, res) => {
     });
   });
 
+router.get('/:input', (req, res) => {
+    const input = req.params.input;
+    // Ici, vous intégreriez la logique pour rechercher la ville dans votre base de données
+    // Pour l'exemple, je vais juste renvoyer le mot "input"
+    res.json({ message: `Recherche effectuée pour : ${input}` });
+});
+
 module.exports = router;
