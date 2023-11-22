@@ -4,7 +4,7 @@ function updateClubName() {
         .then(response => response.json())
         .then(clubs => {
             // Rechercher le club avec id_club : 3
-            const clubId = clubs.find(club => club.id_club === 89);
+            const clubId = clubs.find(club => club.id_club === 96);
 
             if (clubId) {
                 // Mettre à jour le nom du club dans le code HTML
