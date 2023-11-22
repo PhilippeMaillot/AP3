@@ -75,11 +75,12 @@ function updateFieldList() {
 }
 
 updateTownList();
-villeSelect.addEventListener('change', updateFieldList);
+townSelect.addEventListener('change', updateFieldList);
 sportSelect.addEventListener('change', updateFieldList);
 
+
   document.addEventListener("DOMContentLoaded", function () {
-      const addTournamentForm = document.getElementById("TournamentForm");
+      const addTournamentForm = document.getElementById("tournamentForm");
   
       addTournamentForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent the default form submission behavior
@@ -89,7 +90,7 @@ sportSelect.addEventListener('change', updateFieldList);
         const tournament_date = document.getElementById("tournament_date").value;
         const tournament_sport = sportSelect;
         const tournament_town = townSelect;
-        const tournament_field = fieldSelect;
+        const tournament_field = document.getElementById("fieldSelect").value;
 
 // Check if any field is empty
 if (tournament_name === "") {
@@ -100,7 +101,7 @@ if (tournament_name === "") {
     alert('Veuillez remplir le champ "Date du tournoi"');
     return;
   }
-  if (tournament_sport === "" || "Choix du sport" ) {
+  if (tournament_sport === "" || tournament_sport === "Choix du sport") {
     alert('Veuillez remplir le champ "Sport"');
     return;
   }
@@ -122,8 +123,6 @@ if (tournament_name === "") {
       const formData = {
         tournament_name: sanitizeHtml(tournament_name),
         tournament_date: sanitizeHtml(tournament_date),
-        tournament_sport: sanitizeHtml(tournament_sport),
-        tournament_town: sanitizeHtml(tournament_town),
         tournament_field: sanitizeHtml(tournament_field),
       };
 

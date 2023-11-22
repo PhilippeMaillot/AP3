@@ -30,11 +30,11 @@ router.get('/participations', (req, res) => {
 
   router.post('/add', async (req, res) => {
     try {
-        await tournamentController.addTournament(req, res);
+      await tournamentController.addTournament(req, res);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-});
-
+  });
+  
 module.exports = router;
