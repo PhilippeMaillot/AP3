@@ -78,15 +78,77 @@ updateTownList();
 villeSelect.addEventListener('change', updateFieldList);
 sportSelect.addEventListener('change', updateFieldList);
 
-//  document.addEventListener("DOMContentLoaded", function () {
-//      const addTournamentForm = document.getElementById("TournamentForm");
+  document.addEventListener("DOMContentLoaded", function () {
+      const addTournamentForm = document.getElementById("TournamentForm");
   
-//      addTournamentForm.addEventListener("submit", function (event) {
-//        event.preventDefault(); // Prevent the default form submission behavior
+      addTournamentForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
   
-//        //  Collect form data
-//        const tournament_name = document.getElementById("tournament_name").value;
-//        const tournament_date = document.getElementById("tournament_date").value;
-//        const tournament_sport = sportSelect
-//        const tournament_town = document.getElementById("clubSport").value;
-//        const tournament_field = document.getElementById("clubMail").value;
+        //  Collect form data
+        const tournament_name = document.getElementById("tournament_name").value;
+        const tournament_date = document.getElementById("tournament_date").value;
+        const tournament_sport = sportSelect;
+        const tournament_town = townSelect;
+        const tournament_field = fieldSelect;
+
+// Check if any field is empty
+if (tournament_name === "") {
+    alert('Veuillez remplir le champ "Nom du tournoi"');
+    return;
+  }
+  if (tournament_date === "") {
+    alert('Veuillez remplir le champ "Date du tournoi"');
+    return;
+  }
+  if (tournament_sport === "" || "Choix du sport" ) {
+    alert('Veuillez remplir le champ "Sport"');
+    return;
+  }
+  if (tournament_town === "" || "Choisir la ville") {
+    alert("Veuillez choisir une ville");
+    return;
+  }
+  if (tournament_field === "" || "Choisir le terrain") {
+    alert('Veuillez remplir le champ "Terrain"');
+    return;
+  }
+
+      // Sanitize input to prevent XSS attacks
+      const sanitizeHtml = (string) => {
+        const temp = document.createElement("div");
+        temp.textContent = string;
+        return temp.innerHTML;
+      };
+      const formData = {
+        tournament_name: sanitizeHtml(tournament_name),
+        tournament_date: sanitizeHtml(tournament_date),
+        tournament_sport: sanitizeHtml(tournament_sport),
+        tournament_town: sanitizeHtml(tournament_town),
+        tournament_field: sanitizeHtml(tournament_field),
+      };
+
+    
+    // Convert data to JSON
+    const jsonData = JSON.stringify(formData);
+
+    // Make a POST request using Axios
+    axios
+      .post("http://localhost:8080/tournament/add", jsonData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(function (response) {
+        // Handle the success response
+        console.log("Response:", response.data);
+        // Add any additional handling code here
+      })
+      .catch(function (error) {
+        // Handle errors
+        console.error("Error:", error);
+        // Add any error handling code here
+      });
+  });
+
+  console.log("JavaScript code loaded successfully!");
+});
