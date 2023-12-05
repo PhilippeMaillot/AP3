@@ -4,6 +4,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
+    "jquery": "^3.7.1",
     "require": "^0.4.4"
   }
 }
