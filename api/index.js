@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const db = require('./config/db');
+const cookieParser = require('cookie-parser');
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const clubRouter = require('./routes/club');
 const fieldRouter = require('./routes/field');
 const trainingRouter = require('./routes/training');
 const tournamentRouter = require('./routes/tournament');
+const testRouter = require('./routes/test');
 const townRouter = require('./routes/town');
 const corsOptions = {
   origin: '*',
@@ -26,6 +28,7 @@ db.connect((err) => {
 
 app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5500"); // Autoriser spécifiquement ce domaine
@@ -42,6 +45,7 @@ app.use('/field', fieldRouter);
 app.use('/training', trainingRouter);
 app.use('/tournament', tournamentRouter);
 app.use('/town', townRouter);
+app.use('/test', testRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');

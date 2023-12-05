@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const clubController = require('../controllers/clubController');
+const cookieJwtAuth = require('../middleware/auth-jwt.js');
 
 router.get('/', (req, res) => {
     db.query('SELECT * FROM clubs', (err, results) => {
@@ -15,9 +16,9 @@ router.get('/', (req, res) => {
     });
   });
 
-router.post('/add', async (req, res) => {
+router.post('/add', cookieJwtAuth, (req, res) => {
     try {
-        await clubController.addClub(req, res);
+        clubController.addClub(req, res);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });

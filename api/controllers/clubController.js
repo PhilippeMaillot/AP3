@@ -1,10 +1,9 @@
 require("dotenv").config(); // Add this line to load environment variables from .env file
-
+const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 const model = require("../models/clubModel");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-//const jwt = require("jsonwebtoken");
 
 class ClubController {
   static addClub(req, res) {
@@ -70,20 +69,27 @@ class ClubController {
             res.status(404).json({ message: "Utilisateur non trouvé" });
           } else {
             const user = results[0];
+            console.log("Utilisateur trouvé :", user);
             const passwordMatch = await bcrypt.compare(
               req.body.password,
               user.password_hash
             );
             if (passwordMatch) {
-              res.status(200).json({ message: "Connexion réussie" });
-              // Generate JWT token using the secret key from .env file
-              /*const token = jwt.sign(
-                { userId: user.id_user },
-                process.env.MY_SECRET_KEY
-              );*/
-              const mdp = req.body.password;
-              const mail_to = req.body.club_mail;
+              res.status(200);
+              let token = jwt.sign({ id_user: user.id_user }, process.env.MY_SECRET_KEY, { expiresIn: "1h" });
+              res.cookie("token", token, { expires: new Date(Date.now() + 900000), httpOnly: true, secure: true });
+              res.json({
+                token,
+                user: {
+                  id_user: user.id_user,
+                  id_club: user.id_club,
+                  club_name: user.club_name,
+                  club_mail: user.club_mail,
+                },
+              })
+              console.log("Token généré :", token);
               const mail_key = process.env.MAIL_KEY;
+              const mail_to = req.body.club_mail;
               const transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
@@ -96,7 +102,7 @@ class ClubController {
                 from: "maillotphilippe78@gmail.com",
                 to: mail_to,
                 subject: "Confirmation de connexion",
-                text: `Votre compte Omnimatch est connecté avec le mot de passe suivant : ${mdp}!`,
+                text: `Votre compte Omnimatch est connecté !`,
               };
 
               transporter.sendMail(mailOptions, function (error, info) {
@@ -107,8 +113,6 @@ class ClubController {
                   console.log("Email sent: " + info.response);
                 }
               });
-              // Redirect to index.html with token as query parameter
-              //res.redirect(`/index.html`);
             } else {
               res.status(401).json({ message: "Mot de passe incorrect" });
             }

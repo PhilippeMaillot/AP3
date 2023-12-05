@@ -29,12 +29,19 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(function (response) {
         // Handle success
-        console.log(response.data);
+        console.log("Réponse reçue :" + response.data);
+        //on renvoie au index.html
+        //window.location.href = "/front/index.html";
       })
       .catch(function (error) {
         // Handle errors
         console.error("Error:", error);
         // Add any error handling code here
+        if (error.response.status === 404) {
+          alert(`Utilisateur non trouvé !`);
+        } else if (error.response.status === 401) {
+          alert(`Mot de passe incorrect !`);
+        }
       });
   });
 
