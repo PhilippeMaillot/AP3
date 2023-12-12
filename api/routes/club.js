@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     });
   });
 
-router.post('/add', cookieJwtAuth, (req, res) => {
+router.post('/add', (req, res) => {
     try {
         clubController.addClub(req, res);
     } catch (error) {
