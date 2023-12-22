@@ -1,16 +1,13 @@
 const button = document.getElementById("testCookie");
 button.addEventListener("click", fetchAPIAndSaveToken);
 
-function testCookie(token) {
-  document.cookie = `token=${token}`;
-}
-
 function fetchAPIAndSaveToken() {
-  axios.post("http://localhost:8080/test/cookie")
+  console.log('Fetching token...')
+  axios.post("http://localhost:8080/test/cookie", {}, { withCredentials: true })
     .then((response) => {
-      const token = response.data.token;
-      console.log("Token reçu :", token);
-      // Ici, vous pouvez utiliser le token comme vous le souhaitez
+      console.log("Response received");
+      // Ici, vous pouvez vérifier si le cookie est stocké
+      console.log("Cookies actuellement stockés:", document.cookie);
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -18,3 +15,7 @@ function fetchAPIAndSaveToken() {
 }
 
 console.log("JavaScript code loaded successfully!");
+
+document.getElementById("Cookie?").addEventListener("click", ()=>{
+  alert(document.cookie);
+});

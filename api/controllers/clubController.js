@@ -32,6 +32,7 @@ class ClubController {
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
+              console.log("Erreur lors de l'envoi du mail")
             } else {
               console.log("Email sent: " + info.response);
             }
@@ -58,7 +59,7 @@ class ClubController {
     }
   }
 
-  static async login(req, res) {
+  /*static async login(req, res) {
     try {
       console.log("Email de l'utilisateur reçu :", req.body);
       model.login(db, req.body.club_mail, async (err, results) => {
@@ -122,7 +123,7 @@ class ClubController {
     } catch (err) {
       res.status(500).json({ err: "Erreur serveur" });
     }
-  }
+  }*/
 }
 
 module.exports = ClubController;

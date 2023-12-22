@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(function (response) {
         // Handle the success response
         console.log("Response:", response.data);
+        console.log("Réponse reçue");
         // Add any additional handling code here
       })
       .catch(function (error) {
@@ -85,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add any error handling code here
       });
   });
-
+  console.log("test on passe bien dans addClubs.js");
   console.log("JavaScript code loaded successfully!");
 });
 

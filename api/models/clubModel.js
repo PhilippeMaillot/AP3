@@ -26,10 +26,10 @@
     db.query(query, [id_user], cb);
   }
 
-  static login(db, email, cb) {
+  /*static login(db, email, cb) {
     const query = 'SELECT * FROM users WHERE club_mail = ?';
     db.query(query, [email], cb);
-  }
+  }*/
 }
 
 module.exports = ClubModel;

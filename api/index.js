@@ -12,9 +12,10 @@ const tournamentRouter = require('./routes/tournament');
 const testRouter = require('./routes/test');
 const townRouter = require('./routes/town');
 const corsOptions = {
-  origin: '*',
-  methods: 'GET,PUT,POST,DELETE',
+  origin: 'http://127.0.0.1:5500',
+  
   allowedHeaders: 'Content-Type, Authorization',
+  credentials:true
 }
 
 // Connexion à la base de données
@@ -27,8 +28,10 @@ db.connect((err) => {
 });
 
 app.use(express.json()); // Utilisez le middleware express.json() pour analyser les requêtes au format JSON
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 app.use(cookieParser());
+
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5500"); // Autoriser spécifiquement ce domaine
