@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const clubController = require('../controllers/clubController');
-const { generateToken } = require('../middleware/jwtUtils'); 
+const jwt = require('jsonwebtoken');
 
 router.get('/', (req, res) => {
     db.query('SELECT * FROM users', (err, results) => {
@@ -26,5 +26,28 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+router.get('/getUserInfo', async (req, res) => {
+  console.log('on passe dans le router')
+  try {
+      const token = req.headers.authorization.split(' ')[1];
+      console.log('token dans le router :', token);
+      if (!token) {
+          throw new Error("Token non fourni dans le header de la requête.");
+      }
+
+      const decodedToken = jwt.verify(token, process.env.MY_SECRET_KEY);
+      console.log('decodedToken dans le router :', decodedToken);
+      if (!decodedToken) {
+          throw new Error("Décodage du token échoué ou propriété 'id' manquante.");
+      }
+
+      const userId = decodedToken.id;
+      clubController.getUserInfo(userId, res);
+  } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+}); 
 
 module.exports = router;

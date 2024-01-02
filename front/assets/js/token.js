@@ -1,15 +1,7 @@
-const jwt = require("jsonwebtoken");
-
 document.addEventListener("DOMContentLoaded", function () {
     // Vérifier si un token existe dans le localStorage
     const token = localStorage.getItem("token");
-    try {
-        const decodedToken = jwt.decode(monToken, { complete: true });
-        console.log(decodedToken.payload); // Les données se trouvent dans decodedToken.payload
-      } catch (error) {
-        console.error('Erreur lors du décodage du token :', error);
-      }
-  
+
     if (!token) {
       // Si aucun token n'est trouvé, rediriger vers la page de connexion
       window.location.href = "./login.html";

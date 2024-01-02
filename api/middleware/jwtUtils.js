@@ -2,8 +2,10 @@ const jwt = require('jsonwebtoken');
 
 function generateToken(user) {
   const payload = {
-    id: user.id,
-    username: user.username,
+    id: user.id_user,
+    id_club: user.id_club,
+    username: user.club_name,
+    mail: user.club_mail,
   };
 
   const secret = process.env.MY_SECRET_KEY;
@@ -20,7 +22,7 @@ function verifyToken(req, res, next) {
 
   if (token == null) return res.sendStatus(401); // if there isn't any token
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.MY_SECRET_KEY, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
