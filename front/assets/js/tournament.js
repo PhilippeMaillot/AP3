@@ -157,6 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Handle the success response
         console.log("Response:", response.data);
         // Add any additional handling code here
+        alert("Tournoi ajouté avec succès !");
+        window.location.href = 'calendar.html'
       })
       .catch(function (error) {
         // Handle errors
