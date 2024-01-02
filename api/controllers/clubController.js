@@ -4,6 +4,7 @@ const db = require("../config/db");
 const model = require("../models/clubModel");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
+const { generateToken } = require('../middleware/jwtUtils');
 
 class ClubController {
   static addClub(req, res) {
@@ -75,19 +76,10 @@ class ClubController {
               user.password_hash
             );
             if (passwordMatch) {
-              res.status(200);
-              let token = jwt.sign({ id_user: user.id_user }, process.env.MY_SECRET_KEY, { expiresIn: "1h" });
-              res.cookie("token", token, { expires: new Date(Date.now() + 900000), httpOnly: true, secure: true });
-              res.json({
-                token,
-                user: {
-                  id_user: user.id_user,
-                  id_club: user.id_club,
-                  club_name: user.club_name,
-                  club_mail: user.club_mail,
-                },
-              })
+              const token = generateToken(user);
               console.log("Token généré :", token);
+              res.status(200);
+              res.json({ message: 'User logged in', token });
               const mail_key = process.env.MAIL_KEY;
               const mail_to = req.body.club_mail;
               const transporter = nodemailer.createTransport({

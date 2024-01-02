@@ -27,11 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
           "Content-Type": "application/json",
         },
       })
-      .then(function (response) {
-        // Handle success
-        console.log("Réponse reçue :" + response.data);
-        //on renvoie au index.html
-        //window.location.href = "/front/index.html";
+      .then(response => response.data)
+          .then(data => {
+              console.log(data);
+              if (data.message === 'User logged in') {
+                  const token = data.token;
+                  // Stocker le token dans le localStorage
+                  localStorage.setItem('token', token);
+                  window.location.href = '/front/index.html';
+              }
       })
       .catch(function (error) {
         // Handle errors

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const clubController = require('../controllers/clubController');
+const { generateToken } = require('../middleware/jwtUtils'); 
 
 router.get('/', (req, res) => {
     db.query('SELECT * FROM users', (err, results) => {
