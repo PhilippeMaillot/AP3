@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css?h=d98553506d4393860db8a633e4842ead">
     <link rel="stylesheet" href="assets/css/Bootstrap-Calendar.css?h=25a4143cdb7bc09ae8bd665f3ad1f911">
     <link rel="stylesheet" href="assets/css/calendar.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body id="page-top">
@@ -85,8 +86,10 @@
                 <div id="popup">
                     <h2>Détails du tournoi</h2>
                     <div id="popupContent"></div>
-                    <button id="addClubButton">Ajouter le club</button>
-                    <div id="clubContainer" class="border rounded px-4 py-2 bg-white shadow-md">
+                    <button id="addClubButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded absolute bottom-0 right-0 mb-4 mr-4">Ajouter le club</button>
+                    <div id="clubContainer" class="rounded px-4 py-2 bg-white shadow-md overflow-auto">
+
+                    </div>
                     <button id="closePopup">Fermer</button>
                 </div>
             </div>
