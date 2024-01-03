@@ -61,22 +61,24 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(`Club sélectionné: ${selectedClubId}`);
           
             fetch('http://localhost:8080/tournament/addparticipation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id_club: selectedClubId,
-                    id_tournament: currentTournamentId, // Utilise l'ID du tournoi stocké
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  id_club: selectedClubId,
+                  id_tournament: currentTournamentId, // Utilise l'ID du tournoi stocké
+              }),
+          })
+          .then(response => response.json())
+          .then(data => {
+              console.log('Success:', data);
+              alert('Le club a été ajouté au tournoi avec succès.'); // Affiche un message
+              window.location.reload(); // Rafraîchit la page
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
         });
       });
   })
@@ -113,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
       currentTournamentId = tournamentId;
       const popup = document.getElementById("popup");
       const overlay = document.getElementById("overlay");
+
+      
 
       if (popup && overlay) {
           popup.style.display = "block";
