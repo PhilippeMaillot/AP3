@@ -83,7 +83,7 @@ class ClubController {
               console.log("Token décodé :", decodedToken);
               res.status(200);
               res.json({ message: 'User logged in', token });
-              const mail_key = process.env.MAIL_KEY;
+              /*const mail_key = process.env.MAIL_KEY;
               const mail_to = req.body.club_mail;
               const transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -107,7 +107,7 @@ class ClubController {
                 } else {
                   console.log("Email sent: " + info.response);
                 }
-              });
+              });*/
             } else {
               res.status(401).json({ message: "Mot de passe incorrect" });
             }
