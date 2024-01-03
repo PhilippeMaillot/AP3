@@ -22,11 +22,6 @@ class TournamentModel {
     const query = "INSERT INTO tournamentparticipation (id_tournament, id_club) VALUES (?, ?)";
     db.query(query, [id_tournament, id_club], cb);
   }
-  static deletClubTournament(db, req, cb){
-    const { id_tournament, id_club } = req.body;
-    const query = "DELETE FROM tournamentparticipation WHERE id_tournament = ? AND id_club = ?";
-    db.query(query, [id_tournament, id_club], cb);
-  }
   
 }
 
