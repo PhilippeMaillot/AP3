@@ -2,10 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 const tournamentController = require("../controllers/tournamentController");
-const TournamentParticipation = require('../models/tournamentParticipation');
-const TournamentControllerParticipation = require("../controllers/tournamentControllerParticipation");
-const tournamentControllerDeleteParticipation = require("../controllers/tournamentControllerDeleteParticipation");
-const TournamentDeleteParticipation = require("../controllers/tournamentControllerParticipation")
 
 router.get("/", (req, res) => {
   db.query("SELECT * FROM tournament", (err, results) => {
@@ -71,7 +67,7 @@ router.post("/addclub", async (req, res) => {
 });
 router.post("/addparticipation", async (req, res) => { 
   try {
-    await TournamentControllerParticipation.addParticipation(req, res);
+    await tournamentController.addClubTournament(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -80,7 +76,7 @@ router.post("/addparticipation", async (req, res) => {
 ;
 router.post("/deleteparticipation", async (req, res) => {
   try {
-      await tournamentControllerDeleteParticipation.deleteClubTournament(req, res);
+      await tournamentController.deleteClubTournament(req, res);
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
