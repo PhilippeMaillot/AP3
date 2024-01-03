@@ -77,7 +77,6 @@ router.post("/addparticipation", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 ;
 router.post("/deleteparticipation", async (req, res) => {
   try {
