@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Convert data to JSON
     const jsonData = JSON.stringify(formData);
+    console.log(jsonData);
 
     // Make a POST request using Axios
     axios

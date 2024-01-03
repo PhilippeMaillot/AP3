@@ -8,6 +8,7 @@ const { generateToken } = require('../middleware/jwtUtils');
 
 class ClubController {
   static addClub(req, res) {
+    console.log("on passe dans le controller");
     try {
       model.createClubs(db, req, (err, results) => {
         if (err) {

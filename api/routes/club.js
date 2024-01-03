@@ -16,4 +16,13 @@ router.get('/', (req, res) => {
   });
 });
 
+router.post('/add', (req, res) => {
+  try {
+      clubController.addClub(req, res);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
