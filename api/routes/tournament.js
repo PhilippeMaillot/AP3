@@ -4,6 +4,8 @@ const db = require("../config/db");
 const tournamentController = require("../controllers/tournamentController");
 const TournamentParticipation = require('../models/tournamentParticipation');
 const TournamentControllerParticipation = require("../controllers/tournamentControllerParticipation");
+const tournamentControllerDeleteParticipation = require("../controllers/tournamentControllerDeleteParticipation");
+const TournamentDeleteParticipation = require("../controllers/tournamentControllerParticipation")
 
 router.get("/", (req, res) => {
   db.query("SELECT * FROM tournament", (err, results) => {
@@ -73,6 +75,16 @@ router.post("/addparticipation", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+;
+router.post("/deleteparticipation", async (req, res) => {
+  try {
+      await tournamentControllerDeleteParticipation.deleteClubTournament(req, res);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
   }
 });
 module.exports = router;
