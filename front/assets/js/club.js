@@ -15,7 +15,8 @@ function displayClubs(data) {
     data.forEach(club => {
         html += `
             <div>
-                <h3>Nom du club: ${club.club_name}</h3>
+                <hr></hr>
+                <h3>${club.club_name}</h3>
                 <p>Adresse: ${club.club_adress}</p>
                 <p>Type de sports: ${club.sport_type}</p>
                 <p>Email: ${club.Mail}</p>

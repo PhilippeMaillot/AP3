@@ -1,151 +1,122 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  #calendar {
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  #calendar div {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  #calendar strong {
-    color: #333;
-  }
-  
-  .details-button {
-    background-color: #4e73df;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  #calendar {
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  #calendar div {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  #calendar strong {
-    color: #333;
-  }
-  
-  .details-button {
-    background-color: #4e73df;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  /* Style pour le pop-up */
-  /* Style pour le pop-up */
-  #popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    z-index: 1000;
-    width: 80%; /* Ajustez la largeur selon vos besoins */
-    max-width: 800px; /* Définissez une largeur maximale si nécessaire */
-    height: 80%; /* Ajustez la hauteur selon vos besoins */
-    max-height: 600px; /* Définissez une hauteur maximale si nécessaire */
-    overflow-y: auto; /* Ajoutez une barre de défilement verticale si nécessaire */
-  }
-  
-  #overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-  
-  #popupContent {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-  
-  /* Style pour le bouton de fermeture */
-  #closePopup {
-    position: absolute;
-    bottom: 10px; /* Ajustez la distance par rapport au bas selon vos besoins */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #4e73df;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+#calendar div {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#calendar strong {
+  color: #333;
+}
+
+h1 {
+  color: #333;
+}
+
+#calendar {
+  max-width: 90%;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.details-button {
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Style pour le pop-up */
+#popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  z-index: 1000;
+  width: 80%; /* Ajustez la largeur selon vos besoins */
+  max-width: 800px; /* Définissez une largeur maximale si nécessaire */
+  height: 80%; /* Ajustez la hauteur selon vos besoins */
+  max-height: 600px; /* Définissez une hauteur maximale si nécessaire */
+  overflow-y: auto; /* Ajoutez une barre de défilement verticale si nécessaire */
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+#popupContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Style pour le bouton de fermeture */
+#closePopup {
+  position: absolute;
+  bottom: 10px; /* Ajustez la distance par rapport au bas selon vos besoins */
+  left: 40%;
+  transform: translateX(-50%);
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#addClubButton {
+  position: absolute;
+  bottom: 10px; /* Ajustez la distance par rapport au bas selon vos besoins */
+  left: 60%;
+  transform: translateX(-50%);
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
