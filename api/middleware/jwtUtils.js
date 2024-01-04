@@ -8,6 +8,8 @@ function generateToken(user) {
     mail: user.club_mail,
   };
 
+  console.log('payload :', user);
+
   const secret = process.env.MY_SECRET_KEY;
   const options = {
     expiresIn: '1h', // Token will expire in 1 hour
