@@ -4,7 +4,7 @@ const db = require("../config/db");
 const model = require("../models/clubModel");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-const { generateToken } = require('../middleware/jwtUtils');
+const { generateToken } = require("../middleware/jwtUtils");
 
 class ClubController {
   static addClub(req, res) {
@@ -82,7 +82,7 @@ class ClubController {
               const decodedToken = jwt.decode(token, { complete: true });
               console.log("Token décodé :", decodedToken);
               res.status(200);
-              res.json({ message: 'User logged in', token });
+              res.json({ message: "User logged in", token });
               /*const mail_key = process.env.MAIL_KEY;
               const mail_to = req.body.club_mail;
               const transporter = nodemailer.createTransport({
@@ -122,17 +122,21 @@ class ClubController {
   static getUserInfo(userId, res) {
     console.log("on passe dans le controller");
     model.getUserInfo(db, userId, (err, results) => {
-        if (err) {
-            console.log("Erreur lors de la récupération des informations de l'utilisateur :", err);
-            res.status(500).json({ error: 'Internal Server Error' });
-        } else {
-            console.log("Informations de l'utilisateur récupérées avec succès :", results);
-            res.status(200).json(results);
-        }
+      if (err) {
+        console.log(
+          "Erreur lors de la récupération des informations de l'utilisateur :",
+          err
+        );
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        console.log(
+          "Informations de l'utilisateur récupérées avec succès :",
+          results
+        );
+        res.status(200).json(results);
+      }
     });
-}
-
-
+  }
 }
 
 module.exports = ClubController;

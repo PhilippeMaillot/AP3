@@ -169,3 +169,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("JavaScript code loaded successfully!");
 });
+
+async function isAdmin() {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch("http://localhost:8080/user/getadmin", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Données récupérées :", data);
+
+    if (data === "M2L") {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(
+      "Une erreur s'est produite lors de la récupération des données de l'API :",
+      error
+    );
+  }
+}
+
+async function checkAdmin() {
+  try {
+    const adminStatus = await isAdmin();
+    console.log("isAdmin:", adminStatus);
+
+    if (!adminStatus) {
+      window.location.href = "./index.html";
+    }
+  } catch (error) {
+    console.error("Une erreur s'est produite :", error);
+  }
+}
+
+checkAdmin();
