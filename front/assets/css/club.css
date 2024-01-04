@@ -1,8 +1,6 @@
 #addClubButton {
     position: absolute;
     bottom: 15px; /* Ajustez la distance par rapport au bas selon vos besoins */
-    right: 8%;
-    transform: translateX(-50%);
     background-color: #4e73df;
     color: white;
     border: none;
