@@ -58,6 +58,32 @@
         cb(err, null);
       });
   }
-}
+  static getUserAndClubInfo(db, userId, cb) {
+    console.log('on passe dans le model')
+    const query = 'SELECT * FROM users INNER JOIN clubs ON users.id_club = clubs.id_club WHERE id_user = ?';
+    const promise = new Promise((resolve, reject) => {
+      db.query(query, [userId], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results[0]);
+          console.log('result :', results[0]);
+        }
+      });
+    });
+    promise
+      .then((result) => {
+        console.log('result :', result);
+        cb(null, result);
+      })
+      .catch((err) => {
+        console.log('err :', err);
+        cb(err, null);
+      });
+    }
+
+
+
+};
 
 module.exports = ClubModel;
