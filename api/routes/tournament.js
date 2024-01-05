@@ -17,6 +17,31 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/tournamentinfo", (req, res) => {
+  if (req.query.id_tournament) {
+    const tournamentId = req.query.id_tournament;
+    db.query(
+      "SELECT sportfields.sport_type, sportfields.field_adress, sportfields.field_town " +
+      "FROM tournament " +
+      "INNER JOIN sportfields ON tournament.id_field = sportfields.id_field " +
+      "WHERE tournament.id_tournament = ?",
+      [tournamentId],
+      (err, results) => {
+        if (err) {
+          console.error(
+            "Erreur lors de la récupération des données : " + err.message
+          );
+          res.status(500).json({ err: "Erreur serveur" });
+          return;
+        }
+
+        res.status(200).json(results);
+      }
+      
+    )
+  }
+});
+
 router.get("/participations", (req, res) => {
   // Si le paramètre id_tournament est présent dans la requête
   if (req.query.id_tournament) {

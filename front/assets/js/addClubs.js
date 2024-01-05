@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(function (response) {
         // Handle the success response
+        alert("Le club a été ajouté avec succès.");
         console.log("Response:", response.data);
         // Add any additional handling code here
       })
