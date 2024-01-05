@@ -137,6 +137,25 @@ class ClubController {
       }
     });
   }
+
+  static getUserAndClubInfo(userId, res) {
+    console.log("on passe dans le controller");
+    model.getUserAndClubInfo(db, userId, (err, results) => {
+      if (err) {
+        console.log(
+          "Erreur lors de la récupération des informations de l'utilisateur :",
+          err
+        );
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        console.log(
+          "Informations de l'utilisateur récupérées avec succès :",
+          results
+        );
+        res.status(200).json(results);
+      }
+    });
+  }
 }
 
 module.exports = ClubController;
