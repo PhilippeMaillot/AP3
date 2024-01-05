@@ -42,13 +42,18 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       const clubContainer = document.getElementById("clubContainer");
       const clubSelect = document.createElement("select");
-      clubSelect.classList.add("w-full", "max-h-60", "overflow-auto"); // Tailwind classes for full width, max height and scroll
+      clubSelect.classList.add("w-full", "max-h-60", "overflow-auto");
+
       data.forEach((club) => {
-        const clubOption = document.createElement("option");
-        clubOption.value = club.id_club;
-        clubOption.textContent = `Nom : ${club.club_name}, ${club.sport_type}`;
-        clubSelect.appendChild(clubOption);
+        // Ajouter une condition pour ne pas créer d'option lorsque club_name est égal à "M2L"
+        if (club.club_name !== "M2L") {
+          const clubOption = document.createElement("option");
+          clubOption.value = club.id_club;
+          clubOption.textContent = `Nom : ${club.club_name}, ${club.sport_type}`;
+          clubSelect.appendChild(clubOption);
+        }
       });
+
       clubContainer.appendChild(clubSelect);
 
       clubSelect.addEventListener("change", () => {
@@ -121,11 +126,39 @@ document.addEventListener("DOMContentLoaded", function () {
       popup.style.display = "block";
       overlay.style.display = "block";
 
-      // Ajoutez la liste déroulante et le bouton à votre popup
-      const popupContent = document.getElementById("popupContent");
-      popupContent.innerHTML = `
-              <div id="participantList"></div>
-          `;
+
+      fetch(`http://localhost:8080/tournament/tournamentinfo?id_tournament=${tournamentId}`)
+      .then((response) => response.json())
+      .then((data) => {
+          console.log("Réponse :", data);
+  
+          // Vérifiez si le tableau a des éléments
+          if (Array.isArray(data) && data.length > 0) {
+              const tournamentData = data[0]; // Prenez le premier élément du tableau
+  
+              // Ajoutez la liste déroulante et le bouton à votre popup
+              const popupContent = document.getElementById("popupContent");
+              popupContent.innerHTML = `
+                  <div class="popup-columns">
+                      <div id="participantList" class="column"></div>
+                      <div id="clubContainer" class="column">
+                          <!-- Ajoutez vos éléments ici, par exemple, une liste déroulante et un bouton -->
+                          <label for="tournamentField">Adresse : ${tournamentData.field_adress}</label>
+                          <br>
+                          <label for="tournamentTown">Ville : ${tournamentData.field_town}</label>
+                          <br>    
+                          <label for="sportType">Sport : ${tournamentData.sport_type}</label>
+                      </div>
+                  </div>
+              `;
+          } else {
+              console.error("Le tableau de données est vide ou n'est pas un tableau.");
+          }
+      })
+      .catch((error) => {
+          console.error("Erreur lors de la récupération des données depuis l'API :", error);
+      });
+  
 
       // Afficher la liste des participants
       fetch(

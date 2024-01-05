@@ -120,3 +120,14 @@ h1 {
   cursor: pointer;
   border-radius: 4px;
 }
+
+.popup-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* Ajustez la valeur selon vos besoins pour définir l'espace entre les colonnes */
+}
+
+.column {
+  padding: 10px; /* Ajustez la valeur selon vos besoins pour définir l'espace à l'intérieur des colonnes */
+  padding-left: 50px;
+}

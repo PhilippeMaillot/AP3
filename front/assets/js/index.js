@@ -67,7 +67,7 @@ async function getAdminByToken() {
   }
 }
 
-function hideCreateTournamentLink() {
+function hidLink() {
   const createTournamentLink = document.querySelector(
     "li.nav-item:nth-child(2)"
   ); // Sélectionnez l'élément du lien "Créer un tournoi" en fonction de votre structure HTML
@@ -86,7 +86,7 @@ async function updateClubNameAndCheckAdmin() {
     const isAdmin = await getAdminByToken();
 
     if (!isAdmin) {
-      hideCreateTournamentLink();
+      hidLink();
     }
   } catch (error) {
     console.error("Une erreur s'est produite :", error);
