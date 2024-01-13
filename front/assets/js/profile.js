@@ -24,15 +24,11 @@ async function getProfilInfo() {
     document.getElementById("sport").value = data.sport_type;
 
     // Désactiver les champs
-    document.getElementById("club_name").disabled = false;
-    document.getElementById("email").disabled = false;
+    document.getElementById("club_name").disabled = true;
+    document.getElementById("email").disabled = true;
     document.getElementById("address").disabled = true;
     document.getElementById("town").disabled = true;
     document.getElementById("sport").disabled = true;
-
-    // Masquer le bouton "Sauvegarder les modifications"
-    document.getElementById("saveButton").style.display = "none";
-
   } catch (error) {
     console.error(
       "Une erreur s'est produite lors de la récupération des données de l'API :",
