@@ -27,6 +27,13 @@ class TournamentModel {
     const query = "DELETE FROM tournamentparticipation WHERE id_tournament = ? AND id_club = ?";
     db.query(query, [id_tournament, id_club], cb);
   }
+
+  static deleteTournament(db, req, cb) {
+    const { id_tournament } = req.body;
+    console.log("l'id du tournois", id_tournament);
+    const query = "DELETE FROM tournament WHERE id_tournament = ?";
+    db.query(query, [id_tournament], cb);
+  }
   
 }
 

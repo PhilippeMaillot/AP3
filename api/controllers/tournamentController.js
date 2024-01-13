@@ -34,6 +34,22 @@ class TournamentController {
       res.status(500).json({ err: "Erreur serveur" });
     }
   }
+
+  static async deleteTournament(req, res) {
+    try {
+      model.deleteTournament(db, req, (err, results) => {
+        if (err) {
+          console.error("Erreur lors de la suppression du tournoi :", err.message);
+          res.status(500).json({ err: "Erreur serveur" });
+          return;
+        }
+        res.status(200).json({ message: "Le tournoi a bien été supprimé !" });
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ err: "Erreur serveur" });
+    }
+  }
 }
 
 module.exports = TournamentController;

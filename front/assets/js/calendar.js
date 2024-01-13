@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let clubsData = [];
   let currentTournamentId;
 
   const closePopupButton = document.getElementById("closePopup");
@@ -90,6 +89,28 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => {
       console.error("Error:", error);
+    });
+
+    const deleteTournamentButton = document.getElementById("deleteButton");
+    deleteTournamentButton.addEventListener("click", () => {
+      fetch("http://localhost:8080/tournament/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id_tournament: currentTournamentId, // Utilise l'ID du tournoi stocké
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          alert("Le tournoi a été supprimé avec succès."); // Affiche un message
+          window.location.reload(); // Rafraîchit la page
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     });
 
   function createCalendar(data) {
