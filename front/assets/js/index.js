@@ -73,6 +73,11 @@ function hidLink() {
   ); // Sélectionnez l'élément du lien "Créer un tournoi" en fonction de votre structure HTML
   createTournamentLink.style.display = "none";
 
+  const addSportFieldLink = document.querySelector(
+    "li.nav-item:nth-child(5)"
+  );
+  addSportFieldLink.style.display = "none";
+
   const addClubLink = document.querySelector(
     "#addClubButton"
     );
