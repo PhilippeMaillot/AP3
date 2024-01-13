@@ -81,9 +81,6 @@
         cb(err, null);
       });
     }
-
-
-
 };
 
 module.exports = ClubModel;

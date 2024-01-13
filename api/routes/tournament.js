@@ -98,10 +98,19 @@ router.post("/addparticipation", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-;
+
 router.post("/deleteparticipation", async (req, res) => {
   try {
       await tournamentController.deleteClubTournament(req, res);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/delete", async (req, res) => {
+  try {
+      await tournamentController.deleteTournament(req, res);
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
