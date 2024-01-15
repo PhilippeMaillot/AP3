@@ -82,11 +82,14 @@ function hidLink() {
     "#addClubButton"
     );
     addClubLink.style.display = "none";
+<<<<<<< HEAD
 
     const deleteTournamentButton = document.querySelector(
       "#deleteButton"
     );
     deleteTournamentButton.style.display = "none";
+=======
+>>>>>>> 5a0859a70cb15ac09c95dad40cedeaf5f533cd76
 }
 
 async function updateClubNameAndCheckAdmin() {
