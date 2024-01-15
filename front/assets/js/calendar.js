@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
   // Récupération des clubs depuis l'API
-  fetch("http://localhost:8080/club")
+  /*fetch("http://localhost:8080/club")
     .then((response) => response.json())
     .then((data) => {
       const clubContainer = document.getElementById("clubContainer");
@@ -89,29 +89,29 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => {
       console.error("Error:", error);
-    });
+    });*/
 
-    const deleteTournamentButton = document.getElementById("deleteButton");
-    deleteTournamentButton.addEventListener("click", () => {
-      fetch("http://localhost:8080/tournament/delete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id_tournament: currentTournamentId, // Utilise l'ID du tournoi stocké
-        }),
+  const deleteTournamentButton = document.getElementById("deleteButton");
+  deleteTournamentButton.addEventListener("click", () => {
+    fetch("http://localhost:8080/tournament/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_tournament: currentTournamentId, // Utilise l'ID du tournoi stocké
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        alert("Le tournoi a été supprimé avec succès."); // Affiche un message
+        window.location.reload(); // Rafraîchit la page
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          alert("Le tournoi a été supprimé avec succès."); // Affiche un message
-          window.location.reload(); // Rafraîchit la page
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
 
   function createCalendar(data) {
     const calendar = document.getElementById("calendar");
@@ -142,24 +142,28 @@ document.addEventListener("DOMContentLoaded", function () {
     currentTournamentId = tournamentId;
     const popup = document.getElementById("popup");
     const overlay = document.getElementById("overlay");
+    const clubList = document.getElementById("clubList");
 
-    if (popup && overlay) {
+    if (popup && overlay && clubList) {
       popup.style.display = "block";
       overlay.style.display = "block";
+      clubList.style.display = "block";
 
-
-      fetch(`http://localhost:8080/tournament/tournamentinfo?id_tournament=${tournamentId}`)
-      .then((response) => response.json())
-      .then((data) => {
+      fetch(
+        `http://localhost:8080/tournament/tournamentinfo?id_tournament=${tournamentId}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
           console.log("Réponse :", data);
-  
+          const tournamentData = data[0];
+
           // Vérifiez si le tableau a des éléments
           if (Array.isArray(data) && data.length > 0) {
-              const tournamentData = data[0]; // Prenez le premier élément du tableau
-  
-              // Ajoutez la liste déroulante et le bouton à votre popup
-              const popupContent = document.getElementById("popupContent");
-              popupContent.innerHTML = `
+            //const tournamentData = data[0]; // Prenez le premier élément du tableau
+
+            // Ajoutez la liste déroulante et le bouton à votre popup
+            const popupContent = document.getElementById("popupContent");
+            popupContent.innerHTML = `
                   <div class="popup-columns">
                       <div id="participantList" class="column"></div>
                       <div id="clubContainer" class="column">
@@ -173,13 +177,84 @@ document.addEventListener("DOMContentLoaded", function () {
                   </div>
               `;
           } else {
-              console.error("Le tableau de données est vide ou n'est pas un tableau.");
+            console.error(
+              "Le tableau de données est vide ou n'est pas un tableau."
+            );
           }
-      })
-      .catch((error) => {
-          console.error("Erreur lors de la récupération des données depuis l'API :", error);
-      });
-  
+
+          // Récupérer le conteneur HTML pour le menu déroulant des clubs
+          const clubContainer = document.getElementById("clubContainer");
+          const clubList = document.getElementById("clubList");
+
+          // Fetch des données des clubs depuis l'API
+          fetch("http://localhost:8080/club")
+            .then((response) => response.json())
+            .then((clubData) => {
+              console.log("Données des clubs :", clubData);
+              console.log("données du tournoi :", tournamentData);
+              // Filtrer les clubs en fonction du sport du tournoi
+              const filteredClubs = clubData.filter(
+                (club) => club.sport_type === tournamentData.sport_type
+              );
+              console.log("Clubs filtrés :", filteredClubs);
+
+              // Créer le menu déroulant des clubs
+              const clubSelect = document.createElement("select");
+              clubSelect.id = "clubSelect";
+
+              // Ajouter les options au menu déroulant
+              filteredClubs.forEach((club) => {
+                const option = document.createElement("option");
+                option.value = club.id_club;
+                option.text = club.club_name;
+                clubSelect.appendChild(option);
+              });
+
+              // Ajouter le menu déroulant au conteneur HTML
+              clubList.appendChild(clubSelect);
+
+              // Ajouter le bouton d'ajout de club
+              const addClubButton = document.getElementById("addClubButton");
+              console.log("clubs selectionnés :", clubSelect.value)
+              // Ajouter l'écouteur d'événements au bouton
+              addClubButton.addEventListener("click", () => {
+                const selectedClubId = clubSelect.value;
+                console.log(`Club sélectionné: ${selectedClubId}`);
+
+                fetch("http://localhost:8080/tournament/addparticipation", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    id_club: selectedClubId,
+                    id_tournament: currentTournamentId,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    console.log("Success:", data);
+                    alert("Le club a été ajouté au tournoi avec succès.");
+                    window.location.reload();
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                  });
+              });
+
+              // Ajouter le bouton au conteneur HTML
+              clubContainer.appendChild(addClubButton);
+            })
+            .catch((error) => {
+              console.error("Error fetching club data:", error);
+            });
+        })
+        .catch((error) => {
+          console.error(
+            "Erreur lors de la récupération des données depuis l'API :",
+            error
+          );
+        });
 
       // Afficher la liste des participants
       fetch(
@@ -251,11 +326,43 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error:", error);
       });
   }
-
   function closePopup() {
     const popup = document.getElementById("popup");
     const overlay = document.getElementById("overlay");
+    const clubList = document.getElementById("clubList");
     popup.style.display = "none";
     overlay.style.display = "none";
+    clubList.innerHTML = "";
   }
 });
+
+async function getTournamentSport(tournamentId) {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/tournament/tournamentinfo?id_tournament=${tournamentId}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Vérifiez si le tableau a des éléments
+    if (Array.isArray(data) && data.length > 0) {
+      const tournamentData = data[0]; // Prenez le premier élément du tableau
+      const sportType = tournamentData.sport_type;
+      console.log("Sport type:", sportType);
+      return sportType;
+    } else {
+      console.error("Le tableau de données est vide ou n'est pas un tableau.");
+      return null;
+    }
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération des données du type de sport depuis l'API :",
+      error
+    );
+    return null;
+  }
+}
