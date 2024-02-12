@@ -64,19 +64,30 @@ async function getAdminByToken() {
 }
 
 function hidLink() {
-  const createTournamentLink = document.querySelector(
-    "li.nav-item:nth-child(2)"
-  ); // Sélectionnez l'élément du lien "Créer un tournoi" en fonction de votre structure HTML
-  createTournamentLink.style.display = "none";
+  const createTournamentLink = document.querySelector("li.nav-item:nth-child(2)");
+  if (createTournamentLink) {
+    createTournamentLink.style.display = "none";
+  }
 
   const addSportFieldLink = document.querySelector("li.nav-item:nth-child(5)");
-  addSportFieldLink.style.display = "none";
+  if (addSportFieldLink) {
+    addSportFieldLink.style.display = "none";
+  }
 
   const updateClubLink = document.querySelector("#updateButton");
-  updateClubLink.style.display = "none";
+  if (updateClubLink) {
+    updateClubLink.style.display = "none";
+  }
 
   const deleteTournamentButton = document.querySelector("#deleteButton");
-  deleteTournamentButton.style.display = "none";
+  if (deleteTournamentButton) {
+    deleteTournamentButton.style.display = "none";
+  }
+
+  const addClubLink = document.querySelector("#addClubButton");
+  if (addClubLink) {
+    addClubLink.style.display = "none";
+  }
 }
 
 async function updateClubNameAndCheckAdmin() {
