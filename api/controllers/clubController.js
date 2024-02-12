@@ -8,7 +8,6 @@ const { generateToken } = require("../middleware/jwtUtils");
 
 class ClubController {
   static addClub(req, res) {
-    console.log("on passe dans le controller");
     try {
       model.createClubs(db, req, (err, results) => {
         if (err) {
@@ -47,7 +46,6 @@ class ClubController {
 
   static getUserId(req, res) {
     try {
-      console.log("ID de l'utilisateur reçu :", req.body.id_user);
       model.getUserId(db, req.body.id_user, (err, results) => {
         if (err) {
           res.status(500).json({ err: "Erreur serveur" });
@@ -62,7 +60,6 @@ class ClubController {
 
   static async login(req, res) {
     try {
-      console.log("Email de l'utilisateur reçu :", req.body);
       model.login(db, req.body.club_mail, async (err, results) => {
         if (err) {
           res.status(500).json({ err: "Erreur serveur" });
@@ -71,43 +68,14 @@ class ClubController {
             res.status(404).json({ message: "Utilisateur non trouvé" });
           } else {
             const user = results[0];
-            console.log("Utilisateur trouvé :", user);
             const passwordMatch = await bcrypt.compare(
               req.body.password,
               user.password_hash
             );
             if (passwordMatch) {
               const token = generateToken(user);
-              console.log("Token généré :", token);
-              const decodedToken = jwt.decode(token, { complete: true });
-              console.log("Token décodé :", decodedToken);
               res.status(200);
               res.json({ message: "User logged in", token });
-              /*const mail_key = process.env.MAIL_KEY;
-              const mail_to = req.body.club_mail;
-              const transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                  user: "maillotphilippe78@gmail.com",
-                  pass: mail_key,
-                },
-              });
-
-              const mailOptions = {
-                from: "maillotphilippe78@gmail.com",
-                to: mail_to,
-                subject: "Confirmation de connexion",
-                text: `Votre compte Omnimatch est connecté !`,
-              };
-
-              transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                  console.log(error);
-                  console.log("Erreur lors de l'envoi du mail");
-                } else {
-                  console.log("Email sent: " + info.response);
-                }
-              });*/
             } else {
               res.status(401).json({ message: "Mot de passe incorrect" });
             }
@@ -120,7 +88,6 @@ class ClubController {
   }
 
   static getUserInfo(userId, res) {
-    console.log("on passe dans le controller");
     model.getUserInfo(db, userId, (err, results) => {
       if (err) {
         console.log(
@@ -129,17 +96,12 @@ class ClubController {
         );
         res.status(500).json({ error: "Internal Server Error" });
       } else {
-        console.log(
-          "Informations de l'utilisateur récupérées avec succès :",
-          results
-        );
         res.status(200).json(results);
       }
     });
   }
 
   static getUserAndClubInfo(userId, res) {
-    console.log("on passe dans le controller");
     model.getUserAndClubInfo(db, userId, (err, results) => {
       if (err) {
         console.log(
@@ -148,10 +110,6 @@ class ClubController {
         );
         res.status(500).json({ error: "Internal Server Error" });
       } else {
-        console.log(
-          "Informations de l'utilisateur récupérées avec succès :",
-          results
-        );
         res.status(200).json(results);
       }
     });

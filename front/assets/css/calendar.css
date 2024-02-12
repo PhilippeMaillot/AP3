@@ -92,7 +92,7 @@ h1 {
 #closePopup {
   position: absolute;
   bottom: 10px; /* Ajustez la distance par rapport au bas selon vos besoins */
-  left: 40%;
+  left: 35%;
   transform: translateX(-50%);
   background-color: #4e73df;
   color: white;
@@ -105,10 +105,10 @@ h1 {
   border-radius: 4px;
 }
 
-#addClubButton {
+#updateButton {
   position: absolute;
   bottom: 10px; /* Ajustez la distance par rapport au bas selon vos besoins */
-  left: 60%;
+  left: 50%;
   transform: translateX(-50%);
   background-color: #4e73df;
   color: white;
@@ -124,7 +124,7 @@ h1 {
 #deleteButton {
   position: absolute;
   bottom: 10px; /* Ajustez la distance par rapport au bas selon vos besoins */
-  left: 80%;
+  left: 70%;
   transform: translateX(-50%);
   background-color: #4e73df;
   color: white;

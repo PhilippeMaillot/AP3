@@ -138,7 +138,7 @@ async function isAdmin() {
     const data = await response.json();
     console.log("Données récupérées :", data);
 
-    if (data === "M2L") {
+    if (data === 1) {
       return true;
     } else {
       return false;

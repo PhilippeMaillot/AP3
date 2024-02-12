@@ -10,6 +10,11 @@ const fieldRouter = require('./routes/field');
 const trainingRouter = require('./routes/training');
 const tournamentRouter = require('./routes/tournament');
 const townRouter = require('./routes/town');
+const mobileUserRouter = require('./routes/mobile');
+const betRouter = require('./routes/bet');
+const productRouter = require('./routes/product');
+
+// Options de CORS
 const corsOptions = {
   origin: '*',
   methods: 'GET,PUT,POST,DELETE',
@@ -30,7 +35,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5500"); // Autoriser spécifiquement ce domaine
+  res.header("Access-Control-Allow-Origin", "*"); // Autoriser spécifiquement ce domaine
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -44,6 +49,9 @@ app.use('/field', fieldRouter);
 app.use('/training', trainingRouter);
 app.use('/tournament', tournamentRouter);
 app.use('/town', townRouter);
+app.use('/mobileuser', mobileUserRouter);
+app.use('/bet', betRouter);
+app.use('/product', productRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');

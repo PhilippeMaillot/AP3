@@ -1,7 +1,5 @@
   class ClubModel {
     static createClubs(db, req, cb) {
-      console.log("on passe dans le model");
-      console.log("req.body :", req.body);
       const { club_name, club_adress, club_town, sport_type, Mail, password_hash } = req.body;
   
       const query = "INSERT INTO clubs (club_name, club_adress, club_town, sport_type, Mail) VALUES (?, ?, (SELECT town_name FROM town WHERE town_name = ?), ?, ?)";
@@ -36,7 +34,6 @@
   }
 
   static getUserInfo(db, userId, cb) {
-    console.log('on passe dans le model')
     const query = 'SELECT * FROM users WHERE id_user = ?';
     const promise = new Promise((resolve, reject) => {
       db.query(query, [userId], (err, results) => {
@@ -44,13 +41,11 @@
           reject(err);
         } else {
           resolve(results[0]);
-          console.log('result :', results[0]);
         }
       });
     });
     promise
       .then((result) => {
-        console.log('result :', result);
         cb(null, result);
       })
       .catch((err) => {
@@ -59,7 +54,6 @@
       });
   }
   static getUserAndClubInfo(db, userId, cb) {
-    console.log('on passe dans le model')
     const query = 'SELECT * FROM users INNER JOIN clubs ON users.id_club = clubs.id_club WHERE id_user = ?';
     const promise = new Promise((resolve, reject) => {
       db.query(query, [userId], (err, results) => {
@@ -67,13 +61,11 @@
           reject(err);
         } else {
           resolve(results[0]);
-          console.log('result :', results[0]);
         }
       });
     });
     promise
       .then((result) => {
-        console.log('result :', result);
         cb(null, result);
       })
       .catch((err) => {

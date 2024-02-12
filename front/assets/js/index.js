@@ -1,7 +1,5 @@
 async function updateClubName() {
-  console.log("on passe dans la fonction");
   const token = localStorage.getItem("token");
-  console.log("Token récupéré :", token);
 
   if (!token) {
     console.error("Token non trouvé.");
@@ -22,7 +20,6 @@ async function updateClubName() {
     }
 
     const data = await response.json();
-    console.log("Données récupérées :", data);
 
     // Now, update your DOM elements with the received data
     const clubNameElement = document.querySelector(".text-gray-600.small");
@@ -52,9 +49,8 @@ async function getAdminByToken() {
     }
 
     const data = await response.json();
-    console.log("Données récupérées :", data);
 
-    if (data === "M2L") {
+    if (data === 1) {
       return true;
     } else {
       return false;
@@ -73,20 +69,14 @@ function hidLink() {
   ); // Sélectionnez l'élément du lien "Créer un tournoi" en fonction de votre structure HTML
   createTournamentLink.style.display = "none";
 
-  const addSportFieldLink = document.querySelector(
-    "li.nav-item:nth-child(5)"
-  );
+  const addSportFieldLink = document.querySelector("li.nav-item:nth-child(5)");
   addSportFieldLink.style.display = "none";
 
-  const addClubLink = document.querySelector(
-    "#addClubButton"
-    );
-    addClubLink.style.display = "none";
+  const updateClubLink = document.querySelector("#updateButton");
+  updateClubLink.style.display = "none";
 
-    const deleteTournamentButton = document.querySelector(
-      "#deleteButton"
-    );
-    deleteTournamentButton.style.display = "none";
+  const deleteTournamentButton = document.querySelector("#deleteButton");
+  deleteTournamentButton.style.display = "none";
 }
 
 async function updateClubNameAndCheckAdmin() {
@@ -95,7 +85,7 @@ async function updateClubNameAndCheckAdmin() {
 
     const isAdmin = await getAdminByToken();
 
-    if (!isAdmin) {
+    if (isAdmin === false) {
       hidLink();
     }
   } catch (error) {

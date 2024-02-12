@@ -6,9 +6,8 @@ function generateToken(user) {
     id_club: user.id_club,
     username: user.club_name,
     mail: user.club_mail,
+    role: user.user_role,
   };
-
-  console.log('payload :', user);
 
   const secret = process.env.MY_SECRET_KEY;
   const options = {

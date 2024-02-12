@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const formData = {
       tournament_name: sanitizeHtml(tournament_name),
       tournament_date: sanitizeHtml(tournament_date),
-      tournament_field: sanitizeHtml(tournament_field),
+      id_field: sanitizeHtml(tournament_field),
     };
 
     console.log("Form data:", formData);
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Make a POST request using Axios
     axios
-      .post("http://localhost:8080/tournament/add", jsonData, {
+      .post("http://localhost:8080/tournament/set", jsonData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -189,7 +189,7 @@ async function isAdmin() {
     const data = await response.json();
     console.log("Données récupérées :", data);
 
-    if (data === "M2L") {
+    if (data === 1) {
       return true;
     } else {
       return false;
