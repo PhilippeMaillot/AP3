@@ -1,7 +1,8 @@
+import HOST from "../config/config.js"
 async function getProfilInfo() {
   const token = localStorage.getItem("token");
   try {
-    const response = await fetch("http://localhost:8080/user/getUserAndClubInfo", {
+    const response = await fetch(`${HOST}/user/getUserAndClubInfo`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,3 +1,4 @@
+import HOST from "../config/config.js"
 async function updateClubName() {
   const token = localStorage.getItem("token");
 
@@ -7,7 +8,7 @@ async function updateClubName() {
   }
 
   try {
-    const response = await fetch("http://localhost:8080/user/getUserInfo", {
+    const response = await fetch(`${HOST}/user/getUserInfo`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +37,7 @@ async function getAdminByToken() {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch("http://localhost:8080/user/getadmin", {
+    const response = await fetch(`${HOST}/user/getadmin`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

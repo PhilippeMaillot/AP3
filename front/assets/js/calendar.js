@@ -1,3 +1,4 @@
+import HOST from "../config/config.js"
 document.addEventListener("DOMContentLoaded", function () {
   let currentTournamentId;
 
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("L'élément #closePopup n'a pas été trouvé dans le DOM.");
   }
 
-  fetch("http://localhost:8080/tournament")
+  fetch(`${HOST}/tournament`)
     .then((response) => response.json())
     .then((data) => {
       const upcomingTournaments = data.filter((tournament) => {
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const deleteTournamentButton = document.getElementById("deleteButton");
   deleteTournamentButton.addEventListener("click", () => {
-    fetch("http://localhost:8080/tournament/delete", {
+    fetch(`${HOST}/tournament/delete`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,10 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const [tournamentInfoResponse, participantListResponse] =
           await Promise.all([
             fetch(
-              `http://localhost:8080/tournament/info/${currentTournamentId}`
+              `${HOST}/tournament/info/${currentTournamentId}`
             ),
             fetch(
-              `http://localhost:8080/tournament/infopart/${currentTournamentId}`
+              `${HOST}/tournament/infopart/${currentTournamentId}`
             ),
           ]);
 
@@ -176,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function deleteParticipantFromTournament(clubId) {
       console.log("Club ID to delete:", clubId);
-      fetch("http://localhost:8080/tournament/deleteparticipant", {
+      fetch(`${HOST}/tournament/deleteparticipant`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -215,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function getTournamentSport(tournamentId) {
   try {
     const response = await fetch(
-      `http://localhost:8080/tournament/tournamentinfo?id_tournament=${tournamentId}`
+      `${HOST}/tournament/tournamentinfo?id_tournament=${tournamentId}`
     );
 
     if (!response.ok) {

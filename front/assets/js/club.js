@@ -1,6 +1,7 @@
+import HOST from "../config/config.js"
 let clubsData = [];
 
-fetch("http://localhost:8080/club")
+fetch(`${HOST}/club`)
   .then((response) => response.json())
   .then((data) => {
     clubsData = data;

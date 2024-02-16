@@ -1,3 +1,4 @@
+import HOST from "../config/config.js"
 document.addEventListener("DOMContentLoaded", function () {
     const addFieldForm = document.getElementById("addSportField");
   
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // Make a POST request using Axios
       axios
-        .post("http://localhost:8080/field/add", jsonData, {
+        .post(`${HOST}/field/add`, jsonData, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 function updateTownList() {
-  fetch("http://localhost:8080/town")
+  fetch(`${HOST}/town`)
     .then((response) => response.json())
     .then((towns) => {
       const fieldTown = document.getElementById("fieldTown");
@@ -94,7 +95,7 @@ async function isAdmin() {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch("http://localhost:8080/user/getadmin", {
+    const response = await fetch(`${HOST}/user/getadmin`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

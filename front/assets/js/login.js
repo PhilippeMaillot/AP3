@@ -1,3 +1,4 @@
+import HOST from "../config/config.js"
 document.addEventListener("DOMContentLoaded", function () {
   const loginiForm = document.getElementById("loginForm");
 
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(jsonData);
 
     axios
-      .post("http://localhost:8080/user/login", jsonData, {
+      .post(`${HOST}/user/login`, jsonData, {
         headers: {
           "Content-Type": "application/json",
         },

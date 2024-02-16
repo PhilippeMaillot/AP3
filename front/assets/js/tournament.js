@@ -1,8 +1,9 @@
+import HOST from "../config/config.js"
 var selectedSport;
 var selectedTown;
 
 function updateTownList() {
-  fetch("http://localhost:8080/town")
+  fetch(`${HOST}/town`)
     .then((response) => response.json())
     .then((towns) => {
       const townSelect = document.getElementById("villeSelect");
@@ -59,7 +60,7 @@ const fieldSelect = document.querySelector("#fieldSelect");
 
 function updateFieldList() {
   if (selectedSport && selectedTown) {
-    fetch("http://localhost:8080/field")
+    fetch(`${HOST}/field`)
       .then((response) => response.json())
       .then((fields) => {
         while (fieldSelect.firstChild) {
@@ -148,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Make a POST request using Axios
     axios
-      .post("http://localhost:8080/tournament/set", jsonData, {
+      .post(`${HOST}/tournament/set`, jsonData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -174,7 +175,7 @@ async function isAdmin() {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch("http://localhost:8080/user/getadmin", {
+    const response = await fetch(`${HOST}/user/getadmin`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

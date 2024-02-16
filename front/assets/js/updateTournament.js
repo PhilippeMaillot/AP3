@@ -1,3 +1,5 @@
+import HOST from "../config/config.js"
+
 function tournamentList() {
   const selectElement = document.getElementById("tournamentSelect");
   selectElement.classList.add("form-control");
@@ -8,7 +10,7 @@ function tournamentList() {
   defaultOption.textContent = "Sélectionnez un tournoi";
   selectElement.appendChild(defaultOption);
 
-  fetch("http://localhost:8080/tournament")
+  fetch(`${HOST}/tournament`)
     .then((response) => response.json())
     .then((data) => {
       console.log("data : ", data);
@@ -25,7 +27,7 @@ function tournamentList() {
         const selectedTournamentId = this.value; // Mettre à jour l'ID du tournoi sélectionné
         console.log("ID du tournoi sélectionné :", selectedTournamentId);
         fetch(
-          `http://localhost:8080/tournament/infopart/${selectedTournamentId}`
+          `${HOST}/tournament/infopart/${selectedTournamentId}`
         )
           .then((response) => response.json())
           .then((participants) => {
@@ -36,7 +38,7 @@ function tournamentList() {
 
             // Appeler l'API avec l'ID du tournoi sélectionné pour récupérer les informations du tournoi
             fetch(
-              `http://localhost:8080/tournament/info/${selectedTournamentId}`
+              `${HOST}/tournament/info/${selectedTournamentId}`
             )
               .then((response) => response.json())
               .then((data) => {
@@ -77,7 +79,7 @@ function fetchNonParticipantClubs(
   participants,
   sportType
 ) {
-  fetch("http://localhost:8080/club")
+  fetch(`${HOST}/club`)
     .then((response) => response.json())
     .then((clubs) => {
       // Filtrer les clubs qui correspondent au sport_type du tournoi sélectionné
@@ -115,7 +117,7 @@ function fetchNonParticipantClubs(
         button.classList.add("btn", "btn-primary", "btn-sm");
         button.addEventListener("click", function () {
           // Ensuite, vous pouvez effectuer votre appel POST à votre API
-          fetch("http://localhost:8080/tournament/add", {
+          fetch(`${HOST}/tournament/add`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -130,7 +132,7 @@ function fetchNonParticipantClubs(
               console.log("Club ajouté au tournoi :", club.club_name);
               // Mise à jour de la liste des participants
               fetch(
-                `http://localhost:8080/tournament/infopart/${selectedTournamentId}`
+                `${HOST}/tournament/infopart/${selectedTournamentId}`
               )
                 .then((response) => response.json())
                 .then((participants) => {
@@ -189,7 +191,7 @@ function updateParticipantList(participants, id_tournament, sportType) {
     button.classList.add("btn", "btn-primary", "btn-sm");
     button.addEventListener("click", function () {
       // Appeler votre fonction de suppression ici
-      fetch("http://localhost:8080/tournament/deleteparticipant", {
+      fetch(`${HOST}/tournament/deleteparticipant`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -201,7 +203,7 @@ function updateParticipantList(participants, id_tournament, sportType) {
         .then((response) => response.json())
         .then((data) => {
           console.log("Club supprimé du tournoi :", participant.club_name);
-          fetch(`http://localhost:8080/tournament/infopart/${id_tournament}`)
+          fetch(`${HOST}/tournament/infopart/${id_tournament}`)
             .then((response) => response.json())
             .then((participants) => {
               updateParticipantList(participants, id_tournament);
@@ -227,7 +229,7 @@ function updateParticipantList(participants, id_tournament, sportType) {
     listItem.appendChild(button);
     participantList.appendChild(listItem);
   });
-  fetch(`http://localhost:8080/tournament/info/${id_tournament}`)
+  fetch(`${HOST}/tournament/info/${id_tournament}`)
     .then((response) => response.json())
     .then((data) => {
       // Utiliser les données récupérées de l'API pour obtenir le sport_type du tournoi sélectionné
@@ -239,7 +241,7 @@ async function isAdmin() {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch("http://localhost:8080/user/getadmin", {
+    const response = await fetch(`${HOST}/user/getadmin`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
