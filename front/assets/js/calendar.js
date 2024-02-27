@@ -1,61 +1,60 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js";
+const api = new ApiCalls();
 document.addEventListener("DOMContentLoaded", function () {
   let currentTournamentId;
 
   const closePopupButton = document.getElementById("closePopup");
   if (closePopupButton) {
     closePopupButton.addEventListener("click", function () {
-      // Ferme le pop-up
       closePopup();
     });
   } else {
     console.error("L'élément #closePopup n'a pas été trouvé dans le DOM.");
   }
 
-  fetch(`${HOST}/tournament`)
-    .then((response) => response.json())
-    .then((data) => {
-      const upcomingTournaments = data.filter((tournament) => {
-        const tournamentDate = new Date(tournament.tournament_date);
-        const currentDate = new Date();
-        return tournamentDate >= currentDate;
-      });
+  api.fetchTournament()
+  .then(data => {
+    // Filtrer les tournois à venir
+    const upcomingTournaments = data[0].filter(tournament => {
+      // Convertir les dates en objets Date
+      const tournamentDate = new Date(tournament.tournament_date);
+      const currentDate = new Date();
+  
+      // Ignorer l'heure, les minutes et les secondes
+      const tournamentDateWithoutTime = new Date(
+          tournamentDate.getFullYear(),
+          tournamentDate.getMonth(),
+          tournamentDate.getDate()
+      );
+      const currentDateWithoutTime = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate()
+      );
+      // Comparer les dates sans tenir compte de l'heure
+      return tournamentDateWithoutTime >= currentDateWithoutTime;
+  });
+  
 
-      upcomingTournaments.sort((a, b) => {
-        const dateA = new Date(a.tournament_date);
-        const dateB = new Date(b.tournament_date);
-        return dateA - dateB;
-      });
+    // Trier les tournois à venir par date
+    upcomingTournaments.sort((a, b) => {
+      const dateA = new Date(a.tournament_date);
+      const dateB = new Date(b.tournament_date);
+      return dateA - dateB;
+    });
 
-      createCalendar(upcomingTournaments);
-    })
-    .catch((error) =>
-      console.error(
-        "Erreur lors de la récupération des données depuis l'API:",
-        error
-      )
-    );
+    // Appeler la fonction createCalendar avec les tournois à venir
+    createCalendar(upcomingTournaments);
+  })
+  .catch(error => {
+    console.error('Erreur lors de la récupération des données du tournoi:', error);
+  });
 
   const deleteTournamentButton = document.getElementById("deleteButton");
   deleteTournamentButton.addEventListener("click", () => {
-    fetch(`${HOST}/tournament/delete`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id_tournament: currentTournamentId, // Utilise l'ID du tournoi stocké
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        alert("Le tournoi a été supprimé avec succès."); // Affiche un message
-        window.location.reload(); // Rafraîchit la page
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    api.deleteTournament(currentTournamentId)
+    alert("Le tournoi a été supprimé avec succès.");
+    window.location.reload();
   });
 
   function createCalendar(data) {
@@ -63,8 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     data.forEach((tournament) => {
       const date = new Date(tournament.tournament_date);
-      const day = String(date.getDate()).padStart(2, "0"); // Add leading zero
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // Add leading zero
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
       const year = date.getFullYear();
 
       const calendarItem = document.createElement("div");
@@ -98,26 +97,22 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const [tournamentInfoResponse, participantListResponse] =
           await Promise.all([
-            fetch(
-              `${HOST}/tournament/info/${currentTournamentId}`
-            ),
-            fetch(
-              `${HOST}/tournament/infopart/${currentTournamentId}`
-            ),
+            api.tournamentInfos(currentTournamentId),
+            api.tournamentInfoPart(currentTournamentId),
           ]);
 
-        if (!tournamentInfoResponse.ok || !participantListResponse.ok) {
-          throw new Error(`HTTP error!`);
+        if (
+          tournamentInfoResponse.length === 0 || participantListResponse.length === 0
+        ) {
+          throw new Error(`Erreur HTTP!`);
         }
 
-        const tournamentInfo = await tournamentInfoResponse.json();
-        const participants = await participantListResponse.json();
+        const tournamentInfo = tournamentInfoResponse[0];
+        const participants = participantListResponse[0];
 
-        // Vérifiez si le tableau a des éléments
         if (Array.isArray(tournamentInfo) && tournamentInfo.length > 0) {
-          const tournamentData = tournamentInfo[0]; // Prenez le premier élément du tableau
+          const tournamentData = tournamentInfo[0];
 
-          // Ajoutez la liste déroulante et le bouton à votre popup
           const popupContent = document.getElementById("popupContent");
           popupContent.innerHTML = `
             <div class="popup-columns">
@@ -174,29 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }
     }
-
-    function deleteParticipantFromTournament(clubId) {
-      console.log("Club ID to delete:", clubId);
-      fetch(`${HOST}/tournament/deleteparticipant`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id_club: clubId,
-          id_tournament: currentTournamentId,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          alert("Le club a été supprimé du tournoi avec succès.");
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
   }
   function closePopup() {
     const popup = document.getElementById("popup");
@@ -212,34 +184,3 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "updatetournament.html";
   });
 });
-
-async function getTournamentSport(tournamentId) {
-  try {
-    const response = await fetch(
-      `${HOST}/tournament/tournamentinfo?id_tournament=${tournamentId}`
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // Vérifiez si le tableau a des éléments
-    if (Array.isArray(data) && data.length > 0) {
-      const tournamentData = data[0]; // Prenez le premier élément du tableau
-      const sportType = tournamentData.sport_type;
-      console.log("Sport type:", sportType);
-      return sportType;
-    } else {
-      console.error("Le tableau de données est vide ou n'est pas un tableau.");
-      return null;
-    }
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des données du type de sport depuis l'API :",
-      error
-    );
-    return null;
-  }
-}

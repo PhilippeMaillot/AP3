@@ -1,10 +1,11 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js";
+
+const api = new ApiCalls();
 var selectedSport;
 var selectedTown;
 
 function updateTownList() {
-  fetch(`${HOST}/town`)
-    .then((response) => response.json())
+  api.fetchTown()
     .then((towns) => {
       const townSelect = document.getElementById("villeSelect");
       const defaultOption = document.createElement("option");
@@ -14,7 +15,7 @@ function updateTownList() {
       defaultOption.selected = true;
       townSelect.appendChild(defaultOption);
 
-      towns.forEach((town) => {
+      towns[0].forEach((town) => {
         const option = document.createElement("option");
         option.value = town.town_name;
         option.text = town.town_name;
@@ -60,8 +61,7 @@ const fieldSelect = document.querySelector("#fieldSelect");
 
 function updateFieldList() {
   if (selectedSport && selectedTown) {
-    fetch(`${HOST}/field`)
-      .then((response) => response.json())
+    api.fetchField()
       .then((fields) => {
         while (fieldSelect.firstChild) {
           fieldSelect.removeChild(fieldSelect.firstChild);
@@ -74,7 +74,7 @@ function updateFieldList() {
         defaultOption.selected = true;
         fieldSelect.appendChild(defaultOption);
 
-        fields.forEach((field) => {
+        fields[0].forEach((field) => {
           if (
             field.field_town === selectedTown &&
             field.sport_type === selectedSport
@@ -148,72 +148,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("JSON data:", jsonData);
 
     // Make a POST request using Axios
-    axios
-      .post(`${HOST}/tournament/set`, jsonData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(function (response) {
-        // Handle the success response
-        console.log("Response:", response.data);
-        // Add any additional handling code here
-        alert("Tournoi ajouté avec succès !");
-        window.location.href = 'calendar.html'
-      })
-      .catch(function (error) {
-        // Handle errors
-        console.error("Error:", error);
-        // Add any error handling code here
-      });
+    api.addTournament(jsonData)
+    alert("Tournoi ajouté avec succès");
+    window.location.href = "calendar.html";
   });
 
   console.log("JavaScript code loaded successfully!");
 });
 
-async function isAdmin() {
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await fetch(`${HOST}/user/getadmin`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("Données récupérées :", data);
-
-    if (data === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error(
-      "Une erreur s'est produite lors de la récupération des données de l'API :",
-      error
-    );
-  }
-}
-
-async function checkAdmin() {
-  try {
-    const adminStatus = await isAdmin();
-    console.log("isAdmin:", adminStatus);
-
-    if (!adminStatus) {
-      window.location.href = "./index.html";
-    }
-  } catch (error) {
-    console.error("Une erreur s'est produite :", error);
-  }
-}
-
-checkAdmin();
+api.checkAdmin();

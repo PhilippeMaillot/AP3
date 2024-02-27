@@ -8,9 +8,9 @@ router.post("/set", tournamentController.setTournament);
 
 router.post("/add", tournamentController.addClub);
 
-router.post("/delete", tournamentController.deleteTournament);
+router.post("/delete/:id_tournament", tournamentController.deleteTournament);
 
-router.post("/deleteparticipant", tournamentController.deleteParticipant);
+router.post("/deleteparticipant/", tournamentController.deleteParticipant);
 
 router.post("/update", tournamentController.update);
 
