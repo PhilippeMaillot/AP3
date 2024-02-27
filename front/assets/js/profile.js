@@ -1,28 +1,17 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js";
+
+const api = new ApiCalls();
 async function getProfilInfo() {
-  const token = localStorage.getItem("token");
   try {
-    const response = await fetch(`${HOST}/user/getUserAndClubInfo`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("Données récupérées :", data);
+    const data = await api.getUserAndClubInfo();
+    const userData = data[0];
 
     // Mise à jour des éléments HTML avec les données récupérées
-    document.getElementById("club_name").value = data.club_name; // Pour les éléments de formulaire
-    document.getElementById("email").value = data.club_mail; // Pour les éléments de formulaire
-    document.getElementById("address").value = data.club_adress;
-    document.getElementById("town").value = data.club_town;
-    document.getElementById("sport").value = data.sport_type;
+    document.getElementById("club_name").value = userData.club_name; // Pour les éléments de formulaire
+    document.getElementById("email").value = userData.club_mail; // Pour les éléments de formulaire
+    document.getElementById("address").value = userData.club_adress;
+    document.getElementById("town").value = userData.club_town;
+    document.getElementById("sport").value = userData.sport_type;
 
     // Désactiver les champs
     document.getElementById("club_name").disabled = true;

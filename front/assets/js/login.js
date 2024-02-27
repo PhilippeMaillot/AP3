@@ -1,47 +1,24 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js";
+const api = new ApiCalls();
 document.addEventListener("DOMContentLoaded", function () {
-  const loginiForm = document.getElementById("loginForm");
+  const loginForm = document.getElementById("loginForm");
 
-  loginiForm.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+  loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    // Collect form data
     const club_mail = document.getElementById("user_mail").value;
     const password = document.getElementById("user_password").value;
 
-    console.log(club_mail);
-    console.log(password);
-
-    // Make a GET request to retrieve user information from the API
-    //ici je veux récuperer les données qui sont dans mon api avec la fonction login qui est dans mon controller
-
-    const formData = {
-      club_mail: club_mail,
-      password: password,
-    };
-    const jsonData = JSON.stringify(formData);
-    console.log(jsonData);
-
-    axios
-      .post(`${HOST}/user/login`, jsonData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(response => response.data)
-          .then(data => {
-              console.log(data);
-              if (data.message === 'User logged in') {
-                  const token = data.token;
-                  // Stocker le token dans le localStorage
-                  localStorage.setItem('token', token);
-                  window.location.href = '/front/index.html';
-              }
+    api.login(club_mail, password)
+      .then((data) => {
+        if (data.message === "User logged in") {
+          const token = data.token;
+          localStorage.setItem("token", token);
+          window.location.href = "/front/index.html";
+        }
       })
       .catch(function (error) {
-        // Handle errors
         console.error("Error:", error);
-        // Add any error handling code here
         if (error.response.status === 404) {
           alert(`Utilisateur non trouvé !`);
         } else if (error.response.status === 401) {

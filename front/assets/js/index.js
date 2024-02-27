@@ -1,68 +1,5 @@
-import HOST from "../config/config.js"
-async function updateClubName() {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    console.error("Token non trouvé.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`${HOST}/user/getUserInfo`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // Now, update your DOM elements with the received data
-    const clubNameElement = document.querySelector(".text-gray-600.small");
-    clubNameElement.textContent = data.club_name; // Adjust according to your data structure
-  } catch (error) {
-    console.error(
-      "Une erreur s'est produite lors de la récupération des données de l'API :",
-      error
-    );
-  }
-}
-
-async function getAdminByToken() {
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await fetch(`${HOST}/user/getadmin`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (data === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error(
-      "Une erreur s'est produite lors de la récupération des données de l'API :",
-      error
-    );
-  }
-}
+import ApiCalls from "./apiCalls.js"
+const api = new ApiCalls()
 
 function hidLink() {
   const createTournamentLink = document.querySelector("li.nav-item:nth-child(2)");
@@ -93,9 +30,9 @@ function hidLink() {
 
 async function updateClubNameAndCheckAdmin() {
   try {
-    await updateClubName(); // Attend que la fonction updateClubName soit terminée
+    await api.updateClubName();
 
-    const isAdmin = await getAdminByToken();
+    const isAdmin = await api.isAdmin();
 
     if (isAdmin === false) {
       hidLink();

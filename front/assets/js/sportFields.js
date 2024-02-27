@@ -1,4 +1,6 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js"
+const api = new ApiCalls()
+
 document.addEventListener("DOMContentLoaded", function () {
     const addFieldForm = document.getElementById("addSportField");
   
@@ -41,31 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(jsonData);
   
       // Make a POST request using Axios
-      axios
-        .post(`${HOST}/field/add`, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then(function (response) {
-          // Handle the success response
-          alert("Le complexe a été ajouté avec succès.");
-          console.log("Response:", response);
-          // Add any additional handling code here
-        })
-        .catch(function (error) {
-          // Handle errors
-          console.error("Error:", error);
-          // Add any error handling code here
-        });
+      api.addField(jsonData);
     });
   
     console.log("JavaScript code loaded successfully!");
   });
 
 function updateTownList() {
-  fetch(`${HOST}/town`)
-    .then((response) => response.json())
+  api.fetchTown()
     .then((towns) => {
       const fieldTown = document.getElementById("fieldTown");
       // Ajouter une option par défaut
@@ -76,7 +61,7 @@ function updateTownList() {
       defaultOption.selected = true;
       fieldTown.appendChild(defaultOption);
       // Ajouter les villes
-      towns.forEach((town) => {
+      towns[0].forEach((town) => {
         const option = document.createElement("option");
         option.value = town.town_name;
         option.text = town.town_name;
@@ -91,50 +76,5 @@ function updateTownList() {
     });
 }
 
-async function isAdmin() {
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await fetch(`${HOST}/user/getadmin`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("Données récupérées :", data);
-
-    if (data === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error(
-      "Une erreur s'est produite lors de la récupération des données de l'API :",
-      error
-    );
-  }
-}
-
-async function checkAdmin() {
-  try {
-    const adminStatus = await isAdmin();
-    console.log("isAdmin:", adminStatus);
-
-    if (!adminStatus) {
-      window.location.href = "./index.html";
-    }
-  } catch (error) {
-    console.error("Une erreur s'est produite :", error);
-  }
-}
-
-checkAdmin();
+api.checkAdmin();
 updateTownList();

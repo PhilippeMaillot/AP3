@@ -1,4 +1,5 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js";
+const api = new ApiCalls();
 
 function tournamentList() {
   const selectElement = document.getElementById("tournamentSelect");
@@ -10,12 +11,10 @@ function tournamentList() {
   defaultOption.textContent = "Sélectionnez un tournoi";
   selectElement.appendChild(defaultOption);
 
-  fetch(`${HOST}/tournament`)
-    .then((response) => response.json())
+  api.fetchTournament()
     .then((data) => {
-      console.log("data : ", data);
 
-      data.forEach((tournament) => {
+      data[0].forEach((tournament) => {
         const optionElement = document.createElement("option");
         optionElement.value = tournament.id_tournament;
         optionElement.textContent = tournament.tournament_name;
@@ -25,31 +24,23 @@ function tournamentList() {
       // Ajouter un event listener pour écouter les changements de sélection
       selectElement.addEventListener("change", function () {
         const selectedTournamentId = this.value; // Mettre à jour l'ID du tournoi sélectionné
-        console.log("ID du tournoi sélectionné :", selectedTournamentId);
-        fetch(
-          `${HOST}/tournament/infopart/${selectedTournamentId}`
-        )
-          .then((response) => response.json())
+        api
+          .tournamentInfoPart(selectedTournamentId)
           .then((participants) => {
-            // Utiliser les données récupérées de l'API pour les participants
-            console.log("Données des participations :", participants);
+            const tournamentParts = participants[0];
 
-            updateParticipantList(participants, selectedTournamentId);
+            updateParticipantList(tournamentParts, selectedTournamentId);
 
             // Appeler l'API avec l'ID du tournoi sélectionné pour récupérer les informations du tournoi
-            fetch(
-              `${HOST}/tournament/info/${selectedTournamentId}`
-            )
-              .then((response) => response.json())
+            api
+              .tournamentInfos(selectedTournamentId)
               .then((data) => {
-                // Utiliser les données récupérées de l'API pour obtenir le sport_type du tournoi sélectionné
-                const sportType = data[0].sport_type;
-                console.log("Sport du tournoi sélectionné :", sportType);
-
+                const allDatas = data[0];
+                const sportType = allDatas[0].sport_type;
                 // Mettre à jour la liste des non participants
                 fetchNonParticipantClubs(
                   selectedTournamentId,
-                  participants,
+                  participants[0],
                   sportType
                 );
               })
@@ -79,10 +70,10 @@ function fetchNonParticipantClubs(
   participants,
   sportType
 ) {
-  fetch(`${HOST}/club`)
-    .then((response) => response.json())
+  api.fetchClub()
     .then((clubs) => {
       // Filtrer les clubs qui correspondent au sport_type du tournoi sélectionné
+      clubs = clubs[0];
       const filteredClubs = clubs.filter(
         (club) => club.sport_type === sportType
       );
@@ -117,35 +108,22 @@ function fetchNonParticipantClubs(
         button.classList.add("btn", "btn-primary", "btn-sm");
         button.addEventListener("click", function () {
           // Ensuite, vous pouvez effectuer votre appel POST à votre API
-          fetch(`${HOST}/tournament/add`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id_club: club.id_club,
-              id_tournament: selectedTournamentId,
-            }),
-          })
-            .then((response) => response.json())
+          api.addParticipant( club.id_club, selectedTournamentId)
             .then((data) => {
               console.log("Club ajouté au tournoi :", club.club_name);
               // Mise à jour de la liste des participants
-              fetch(
-                `${HOST}/tournament/infopart/${selectedTournamentId}`
-              )
-                .then((response) => response.json())
+              api
+                .tournamentInfoPart(selectedTournamentId)
                 .then((participants) => {
+                  const tournamentParts = participants[0];
                   updateParticipantList(
-                    participants,
+                    tournamentParts,
                     selectedTournamentId,
                     sportType
                   );
-                  // Après la mise à jour de la liste des participants,
-                  // mettre à jour la liste des non participants
                   fetchNonParticipantClubs(
                     selectedTournamentId,
-                    participants,
+                    tournamentParts,
                     sportType
                   );
                 })
@@ -190,26 +168,20 @@ function updateParticipantList(participants, id_tournament, sportType) {
     button.textContent = "-->";
     button.classList.add("btn", "btn-primary", "btn-sm");
     button.addEventListener("click", function () {
+      console.log('participatnt', participant.id_participation)
       // Appeler votre fonction de suppression ici
-      fetch(`${HOST}/tournament/deleteparticipant`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id_participation: participant.id_participation,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
+      const id_participation = participant.id_participation;
+      api.deleteParticipant(id_participation)
           console.log("Club supprimé du tournoi :", participant.club_name);
-          fetch(`${HOST}/tournament/infopart/${id_tournament}`)
-            .then((response) => response.json())
+          api.tournamentInfoPart(id_tournament)
             .then((participants) => {
-              updateParticipantList(participants, id_tournament);
-              // Après la mise à jour de la liste des participants,
-              // mettre à jour la liste des non participants
-              fetchNonParticipantClubs(id_tournament, participants, sportType);
+              const tournamentParts = participants[0];
+              updateParticipantList(tournamentParts, id_tournament, sportType);
+              fetchNonParticipantClubs(
+                id_tournament,
+                tournamentParts,
+                sportType
+              );
             })
             .catch((error) => {
               console.error(
@@ -217,70 +189,17 @@ function updateParticipantList(participants, id_tournament, sportType) {
                 error
               );
             });
-        })
-        .catch((error) => {
-          console.error(
-            "Erreur lors de la suppression du club dans le tournoi :",
-            error
-          );
-        });
       console.log("Supprimer le club :", participant.club_name);
     });
     listItem.appendChild(button);
     participantList.appendChild(listItem);
   });
-  fetch(`${HOST}/tournament/info/${id_tournament}`)
-    .then((response) => response.json())
-    .then((data) => {
-      // Utiliser les données récupérées de l'API pour obtenir le sport_type du tournoi sélectionné
-      const sportType = data[0].sport_type;
-      fetchNonParticipantClubs(id_tournament, participants, sportType);
-    });
-}
-async function isAdmin() {
-  const token = localStorage.getItem("token");
-
-  try {
-    const response = await fetch(`${HOST}/user/getadmin`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("Données récupérées :", data);
-
-    if (data === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error(
-      "Une erreur s'est produite lors de la récupération des données de l'API :",
-      error
-    );
-  }
+  api.tournamentInfos(id_tournament).then((data) => {
+    const allDatas = data[0];
+    const sportType = allDatas[0].sport_type;
+    fetchNonParticipantClubs(id_tournament, participants, sportType);
+  });
 }
 
-async function checkAdmin() {
-  try {
-    const adminStatus = await isAdmin();
-    console.log("isAdmin:", adminStatus);
-
-    if (!adminStatus) {
-      window.location.href = "./index.html";
-    }
-  } catch (error) {
-    console.error("Une erreur s'est produite :", error);
-  }
-}
-
-checkAdmin();
+api.checkAdmin();
 tournamentList();

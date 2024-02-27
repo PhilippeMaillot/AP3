@@ -1,15 +1,11 @@
-import HOST from "../config/config.js"
+import ApiCalls from "./apiCalls.js";
 let clubsData = [];
+const api = new ApiCalls();
 
-fetch(`${HOST}/club`)
-  .then((response) => response.json())
-  .then((data) => {
-    clubsData = data;
-    displayClubs(clubsData);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+api.fetchClub().then((data) => {
+  clubsData = data[0];
+  displayClubs(clubsData);
+});
 
 function displayClubs(data) {
   let html = "";

@@ -133,8 +133,8 @@ class TournamentController {
 
   static deleteTournament = async (req, res) => {
     try {
-      const { id_tournament } = req.body;
-      await model.delete(id_tournament);
+      const { id_tournament } = req.params;
+      model.delete(id_tournament);
       res.status(200).json({ message: "Le tournoi a bien été supprimé !" });
     } catch (error) {
       console.error(error);
@@ -145,6 +145,7 @@ class TournamentController {
   static deleteParticipant = async (req, res) => {
     try {
       const id_participation = req.body.id_participation;
+      console.log('id part dans le controller',id_participation);
       await model.deleteParticipation(id_participation);
       res.status(200).json({ message: "Le participant a bien été supprimé !" });
     } catch (error) {
