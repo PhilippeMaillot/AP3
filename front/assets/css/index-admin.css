@@ -59,3 +59,23 @@
     background-color: transparent;
     border-top: 1px solid #ddd;
 }
+
+button {
+    background-color: #007bff; /* Bleu */
+    border: none;
+    color: white; /* Texte blanc */
+    padding: 10px 20px; /* Espacement intérieur */
+    text-align: center; /* Centrer le texte */
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer; /* Change le curseur en main lors du survol */
+    transition-duration: 0.4s; /* Durée de l'effet de survol */
+    border-radius: 30px; /* Bords arrondis */
+}
+
+button:hover {
+    background-color: #0069d9; /* Bleu plus foncé lors du survol */
+    color: white;
+}
