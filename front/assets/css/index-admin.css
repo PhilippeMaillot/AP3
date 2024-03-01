@@ -16,17 +16,7 @@
     position: relative;
 }
 
-.card-stats .card-header .card-icon {
-    position: absolute;
-    top: -30px;
-    left: 15px;
-    width: 64px;
-    height: 64px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    padding: 15px;
-    text-align: center;
-}
+
 
 .card-stats .card-header .card-category, .card-stats .card-header .card-title {
     margin-bottom: 0;
