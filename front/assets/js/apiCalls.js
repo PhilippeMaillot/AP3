@@ -289,6 +289,51 @@ class ApiCalls {
       return [];
     }
   }
+
+  // Méthodes pour les produits
+
+  async fetchProducts() {
+    try {
+      const response = await fetch(`${HOST}/product`);
+      const data = await response.json();
+      console.log('produits récup',data);
+      return [data];
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return [];
+    }
+  }
+
+  async addProduct(productData) {
+    console.log('productData',productData);
+    try {
+      const response = await fetch(`${HOST}/productUpload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: productData,
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error adding product:", error);
+      return [];
+    }
+  }
+
+  async deleteProduct(productId) {
+    try {
+      const response = await fetch(`${HOST}/product/delete/${productId}`, {
+        method: "POST",
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      return [];
+    }
+  }
 }
 
 export default ApiCalls;

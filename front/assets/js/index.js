@@ -12,6 +12,11 @@ function hidLink() {
     addSportFieldLink.style.display = "none";
   }
 
+  const productListLink = document.querySelector("li.nav-item:nth-child(6)");
+  if (productListLink) {
+    productListLink.style.display = "none";
+  }
+
   const updateClubLink = document.querySelector("#updateButton");
   if (updateClubLink) {
     updateClubLink.style.display = "none";

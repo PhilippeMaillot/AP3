@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         field_town: sanitizeHtml(field_town),
         sport_type: sanitizeHtml(sport_type),
       };
-  
+
       // Convert data to JSON
       const jsonData = JSON.stringify(formData);
       console.log(jsonData);

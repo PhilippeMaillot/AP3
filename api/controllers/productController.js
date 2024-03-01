@@ -18,9 +18,10 @@ class ProductController {
   };
 
   static addProduct = async (req, res) => {
+    console.log(req.body);
     try {
-      const { product_title, product_description, product_price, product_img } = req.body;
-      await model.addProduct(product_title, product_description, product_price, product_img);
+      const { product_title, product_description, product_price, product_img, stock } = req.body;
+      await model.addProduct(product_title, product_description, product_price, product_img, stock);
       res.status(200).json({ message: "Le produit a bien été ajouté !" });
     } catch (error) {
       console.error(error);
@@ -30,7 +31,7 @@ class ProductController {
 
   static deleteProduct = async (req, res) => {
     try {
-      const { id_product } = req.body;
+      const { id_product } = req.params;
       await model.deleteProduct(id_product);
       res.status(200).json({ message: "Le produit a bien été supprimé !" });
     } catch (error) {
