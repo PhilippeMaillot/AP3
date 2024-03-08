@@ -15,6 +15,7 @@ const townRouter = require('./routes/town');
 const mobileUserRouter = require('./routes/mobile');
 const betRouter = require('./routes/bet');
 const productRouter = require('./routes/product');
+const cartRouter = require('./routes/cart');
 
 
 // Connexion à la base de données
@@ -50,6 +51,7 @@ app.use('/town', townRouter);
 app.use('/mobileuser', mobileUserRouter);
 app.use('/bet', betRouter);
 app.use('/product', productRouter);
+app.use('/cart', cartRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');
