@@ -1,14 +1,9 @@
-body {
-    background-color: rgb(245, 245, 245);
-}
-
 /* Style pour le popup */
 .popup {
     display: none; /* Initialement caché */
     position: fixed; /* Position fixe pour couvrir tout l'écran */
-    bottom: 20px;
-    right: 20px;
-    
+    top: 70%;
+    left: 70%;
     border: 1px solid #ccc;
     background-color: #dc3545;
     /* couleur du texte*/

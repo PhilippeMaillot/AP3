@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PhilippeMaillot/AP3.git"
+    "url": "git+https://github.com/PhilippeMaillot/api-ap3.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PhilippeMaillot/AP3/issues"
+    "url": "https://github.com/PhilippeMaillot/api-ap3/issues"
   },
-  "homepage": "https://github.com/PhilippeMaillot/AP3#readme",
+  "homepage": "https://github.com/PhilippeMaillot/api-ap3#readme",
   "dependencies": {
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",

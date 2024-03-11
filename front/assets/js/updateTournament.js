@@ -151,11 +151,12 @@ function fetchNonParticipantClubs(
     });
 }
 
-function updateParticipantList(participants, id_tournament, sportType) {
+async function updateParticipantList(participants, id_tournament, sportType) {
   const participantList = document.getElementById("participantList");
   participantList.innerHTML = ""; // Effacer le contenu précédent de la liste des participants
 
-  participants.forEach((participant) => {
+  // Utiliser une boucle for...of pour itérer à travers les participants
+  for (const participant of participants) {
     const listItem = document.createElement("li");
     listItem.textContent = participant.club_name;
     listItem.classList.add(
@@ -164,42 +165,37 @@ function updateParticipantList(participants, id_tournament, sportType) {
       "justify-content-between",
       "align-items-center"
     ); // Utilisation des classes de Bootstrap pour le positionnement
+
     const button = document.createElement("button");
     button.textContent = "-->";
     button.classList.add("btn", "btn-primary", "btn-sm");
-    button.addEventListener("click", function () {
-      console.log('participatnt', participant.id_participation)
-      // Appeler votre fonction de suppression ici
-      const id_participation = participant.id_participation;
-      api.deleteParticipant(id_participation)
-          console.log("Club supprimé du tournoi :", participant.club_name);
-          api.tournamentInfoPart(id_tournament)
-            .then((participants) => {
-              const tournamentParts = participants[0];
-              updateParticipantList(tournamentParts, id_tournament, sportType);
-              fetchNonParticipantClubs(
-                id_tournament,
-                tournamentParts,
-                sportType
-              );
-            })
-            .catch((error) => {
-              console.error(
-                "Erreur lors de la récupération des données des participations :",
-                error
-              );
-            });
-      console.log("Supprimer le club :", participant.club_name);
+    
+    button.addEventListener("click", async function () {
+      try {
+        console.log('participant', participant.id_participation)
+        // Appeler votre fonction de suppression ici
+        const id_participation = participant.id_participation;
+        await api.deleteParticipant(id_participation);
+        console.log("Club supprimé du tournoi :", participant.club_name);
+        
+        // Mettre à jour la liste des participants et les clubs non participants
+        const participants = await api.tournamentInfoPart(id_tournament);
+        await Promise.all([
+          updateParticipantList(participants[0], id_tournament, sportType),
+          fetchNonParticipantClubs(id_tournament, participants[0], sportType)
+        ]);
+      } catch (error) {
+        console.error("Erreur lors de la suppression du club du tournoi :", error);
+      }
     });
+
     listItem.appendChild(button);
     participantList.appendChild(listItem);
-  });
-  api.tournamentInfos(id_tournament).then((data) => {
-    const allDatas = data[0];
-    const sportType = allDatas[0].sport_type;
-    fetchNonParticipantClubs(id_tournament, participants, sportType);
-  });
+  }
+
+  fetchNonParticipantClubs(id_tournament, participants, sportType);
 }
+
 
 api.checkAdmin();
 tournamentList();

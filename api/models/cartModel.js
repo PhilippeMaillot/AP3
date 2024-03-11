@@ -1,9 +1,9 @@
 const db = require("../config/db");
 
 class cartModel {
-    static addCart = async (id_cart_item, id_product, item_quantity) => {
-        const query = "INSERT INTO cart_items (id_cart_item, id_product, item_quantity) VALUES (?, ?, ?)";
-        await db.query(query, [id_cart_item, id_product, item_quantity]);
+    static addCart = async (id_cart, id_product, item_quantity) => {
+        const query = "INSERT INTO cart_items (id_cart, id_product, item_quantity) VALUES (?, ?, ?)";
+        await db.query(query, [id_cart, id_product, item_quantity]);
     };
 
     static getCartItemIdByProductId = async (id_product, cb) => {

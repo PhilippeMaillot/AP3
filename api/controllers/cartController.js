@@ -5,23 +5,23 @@ class CartController {
         console.log(req.body);
         try {
             const { id_product } = req.body;
-            model.getCartItemIdByProductId(id_product, async (err, id_cart_item) => {
+            model.getCartItemIdByProductId(id_product, async (err, id_cart) => {
                 if (err) {
                     console.error(err);
                     res.status(500).json({ error: "Internal Server Error" });
                 } else {
-                    if (id_cart_item) {
+                    if (id_cart) {
                         try {
                             const operation = "add"
-                            await model.updateCartItemQuantity(id_cart_item, operation);
+                            await model.updateCartItemQuantity(id_cart, operation);
                             res.status(200).json({ message: "La quantité de l'article a été mise à jour dans le panier !" });
                         } catch (error) {
                             console.error(error);
                             res.status(500).json({ error: "Internal Server Error" });
                         }
                     } else {
-                        const { id_cart_item, item_quantity } = req.body;
-                        await model.addCart(id_cart_item, id_product, item_quantity);
+                        const { id_cart, item_quantity } = req.body;
+                        await model.addCart(id_cart, id_product, item_quantity);
                         res.status(200).json({ message: "Le produit a bien été ajouté dans le panier !" });
                     }
                 }
