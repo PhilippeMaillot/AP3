@@ -3,6 +3,7 @@ const multer = require('multer');
 const app = express();
 const cors = require('cors');
 const db = require('./config/db');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const productController = require('./controllers/productController');
 const indexRouter = require('./routes/index');
@@ -31,14 +32,8 @@ app.use(express.json()); // Utilisez le middleware express.json() pour analyser 
 app.use(cors());
 app.use(cookieParser());
 
-// Options de stockage pour Multer
-// Configuration de l'upload avec Multer
-const upload = multer({ storage: './img' });
-
-// Route pour ajouter un produit
-app.use('/productUpload', upload.single('uploaded_file'), function (req, res) {
-  console.log('test', req.file, req.body)
-});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log('path:',path.join(__dirname, 'uploads'));
 
 // Routes de l'API
 app.use('/', indexRouter);

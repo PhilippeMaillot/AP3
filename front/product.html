@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css?h=97380e22c8933e9aa79cbc2390b9f15a">
     <link rel="stylesheet" href="assets/css/Nunito.css?h=dac2d28453f0bec857bdabd2af0b225e">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="/front/assets/css/product.css">
     </head>
 
     <body id="page-top">
@@ -126,13 +127,31 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="row">
-                                                        <form id="addProductForm" enctype="multipart/form-data">
-                                                            <input class="form-control" type="text" placeholder="Nom" id="productName">
-                                                            <input class="form-control" type="text" placeholder="Description" id="productDescription">
-                                                            <input class="form-control" type="text" placeholder="Prix" id="productPrice">
-                                                            <input class="form-control" type="test" placeholder="Stock" id="productStock">
-                                                            <input class="form-control" name="uploaded_file" type="file" placeholder="Image" id="productImage" accept="image/*">
-                                                            <input class="btn btn-primary" type="submit" value="Ajouter">
+                                                        <form id="addProductForm" method="POST" enctype="multipart/form-data">
+                                                            <input class="form-control" type="text" id="productTitle" name="productName" placeholder="Nom du produit" required>
+                                                            <textarea class="form-control" id="productDescription" name="productDescription" placeholder="Description" required></textarea>
+                                                            <input class="form-control" type="number" id="productPrice" name="productPrice" step="0.01" placeholder="Prix" required>
+                                                            <input class="form-control" type="number" id="productStock" name="productStock" placeholder="Stock" required>
+                                                            <!-- Select pour choisir l'image -->
+                                                            <select class="form-control" id="selectedImage" name="selectedImage">
+                                                                <option value="">Sélectionnez une image</option>
+                                                                <!-- Insérez ici les options générées dynamiquement -->
+                                                            </select>
+                                                            <button class="btn btn-primary btn-sm" type="submit">Ajouter</button>
+                                                        </form>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="popup"></div>
+                                            <div class="card shadow mb-3">
+                                                <div class="card-header py-3">
+                                                    <p class="text-primary m-0 fw-bold">Ajouter une image</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <form action="http://localhost:8080/product/upload" id="uploadImageForm" method="POST" enctype="multipart/form-data">
+                                                            <input class="form-control" type="file" id="file" name="file" accept="image/*" placeholder="Image" required>
+                                                            <button class="btn btn-primary btn-sm" type="submit">Uploader</button>
                                                         </form>
                                                     </div>
                                                 </div>
