@@ -1,5 +1,5 @@
 const model = require("../models/productModel");
-
+const HOST = require("../config/config");
 class ProductController {
   static getAllProducts = async (req, res) => {
     try {
@@ -18,7 +18,8 @@ class ProductController {
   };
 
   static addProduct = async (req, res) => {
-    console.log(req.body);
+    console.log("test" , req.file);
+    console.log("test" , req.body);
     try {
       const { product_title, product_description, product_price, product_img, stock } = req.body;
       await model.addProduct(product_title, product_description, product_price, product_img, stock);
@@ -83,6 +84,15 @@ class ProductController {
           res.status(200).json(results);
         }
       });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+  static uploadProductImage = async (req, res) => {
+    try {
+      res.redirect(`${HOST}/product.html`);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal Server Error" });

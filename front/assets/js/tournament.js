@@ -69,7 +69,7 @@ function updateFieldList() {
 
         const defaultOption = document.createElement("option");
         defaultOption.value = "";
-        defaultOption.text = "Choisir le terrain";
+        defaultOption.text = "Choisir un terrain";
         defaultOption.disabled = true;
         defaultOption.selected = true;
         fieldSelect.appendChild(defaultOption);
@@ -117,15 +117,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Check if any field is empty
     if (tournament_name === "") {
-      alert('Veuillez remplir le champ "Nom du tournoi"');
+      var message = "Veuillez remplir le champ 'Nom du tournoi'.";
+      afficherPopup(message);
       return;
     }
     if (tournament_date === "") {
-      alert('Veuillez remplir le champ "Date du tournoi"');
+      var message = "Veuillez remplir le champ 'Date du tournoi'.";
+      afficherPopup(message);
       return;
     }
+    console.log(selectedSport);
     if (selectedSport === "" || selectedSport === "Choix du sport") {
-      alert('Veuillez remplir le champ "Sport"');
+      var message = "Veuillez choisir un sport.";
+      afficherPopup(message);
+      return;
+    }
+
+    if (tournament_field === "" || tournament_field === "Choisir un terrain") {
+      var message = "Veuillez choisir un terrain.";
+      afficherPopup(message);
       return;
     }
 
@@ -148,12 +158,32 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("JSON data:", jsonData);
 
     // Make a POST request using Axios
+    if (api.isAdmin()) {
     api.addTournament(jsonData)
     alert("Tournoi ajouté avec succès");
     window.location.href = "calendar.html";
+    } else {
+      alert("Vous n'avez pas les droits pour ajouter un tournoi");
+      window.location.href = "login.html";
+    }
   });
 
   console.log("JavaScript code loaded successfully!");
 });
+
+// Fonction pour afficher le popup avec un message spécifique
+function afficherPopup(message) {
+  var popup = document.getElementById("popup");
+  var popupMessage = document.getElementById("popup-message");
+  popupMessage.innerHTML = message;
+  popup.style.display = "block"; // Afficher le popup
+  setTimeout(fermerPopup, 2000);
+}
+
+// Fonction pour fermer le popup
+function fermerPopup() {
+  var popup = document.getElementById("popup");
+  popup.style.display = "none"; // Cacher le popup
+}
 
 api.checkAdmin();

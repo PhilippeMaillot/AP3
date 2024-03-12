@@ -27,10 +27,34 @@ function displayClubs(data) {
   document.getElementById("club-container").innerHTML = html;
 }
 
-document.getElementById("sort-select").addEventListener("change", function () {
+/*document.getElementById("sort-select").addEventListener("change", function () {
   let sortedData = [...clubsData];
   if (this.value) {
     sortedData.sort((a, b) => a[this.value].localeCompare(b[this.value]));
   }
   displayClubs(sortedData);
+});*/
+
+document.getElementById("search").addEventListener("input", function () {
+  let searchString = this.value.toLowerCase();
+  let searchOption = document.getElementById("search-option").value;
+  let filteredData = clubsData.filter((club) =>
+    club[searchOption].toLowerCase().includes(searchString)
+  );
+  displayClubs(filteredData);
+
+  if (filteredData.length === 0) {
+    document.getElementById("club-container").innerHTML =
+      "<p>Pas de résultat trouvé pour votre recherche.</p>";
+  }
 });
+
+document.getElementById("search-option").addEventListener("change", function () {
+  let searchString = document.getElementById("search").value.toLowerCase();
+  let searchOption = this.value;
+  let filteredData = clubsData.filter((club) =>
+    club[searchOption].toLowerCase().includes(searchString)
+  );
+  displayClubs(filteredData);
+});
+

@@ -3,6 +3,7 @@ const multer = require('multer');
 const app = express();
 const cors = require('cors');
 const db = require('./config/db');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const productController = require('./controllers/productController');
 const indexRouter = require('./routes/index');
@@ -15,6 +16,7 @@ const townRouter = require('./routes/town');
 const mobileUserRouter = require('./routes/mobile');
 const betRouter = require('./routes/bet');
 const productRouter = require('./routes/product');
+const cartRouter = require('./routes/cart');
 
 
 // Connexion à la base de données
@@ -30,14 +32,8 @@ app.use(express.json()); // Utilisez le middleware express.json() pour analyser 
 app.use(cors());
 app.use(cookieParser());
 
-// Options de stockage pour Multer
-// Configuration de l'upload avec Multer
-const upload = multer({ storage: './img' });
-
-// Route pour ajouter un produit
-app.use('/productUpload', upload.single('uploaded_file'), function (req, res) {
-  console.log('test', req.file, req.body)
-});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log('path:',path.join(__dirname, 'uploads'));
 
 // Routes de l'API
 app.use('/', indexRouter);
@@ -50,6 +46,7 @@ app.use('/town', townRouter);
 app.use('/mobileuser', mobileUserRouter);
 app.use('/bet', betRouter);
 app.use('/product', productRouter);
+app.use('/cart', cartRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');

@@ -1,5 +1,6 @@
 import ApiCalls from "./apiCalls.js";
 const api = new ApiCalls();
+import HOST from "../config/config.js";
 let allProducts = [];
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   const addProductForm = document.getElementById("addProductForm");
-  addProductForm.addEventListener("submit", handleUpload);
+  addProductForm.addEventListener("submit", handleAdd);
 
   api
     .fetchProducts()
@@ -53,46 +54,30 @@ function displayProducts(products) {
   });
 }
 
-function handleUpload(event) {
-    event.preventDefault();
+function handleAdd(event) {
+  event.preventDefault();
 
-    const productName = document.getElementById("productName").value;
-    const productDescription = document.getElementById("productDescription").value;
-    const productPrice = document.getElementById("productPrice").value;
-    const productStock = document.getElementById("productStock").value;
-    const productImage = document.getElementById("productImage").files[0];
-    console.log(productImage);
+  const formData = {
+    product_title: document.getElementById("productTitle").value,
+    product_description: document.getElementById("productDescription").value,
+    product_price: document.getElementById("productPrice").value,
+    stock: document.getElementById("productStock").value,
+    product_img: document.getElementById("selectedImage").value,
+  };
 
-    const sanitizeHtml = (string) => {
-        const temp = document.createElement("div");
-        temp.textContent = string;
-        return temp.innerHTML;
-      };
-    const formData = {
-    product_title: sanitizeHtml(productName),
-    product_description: sanitizeHtml(productDescription),
-    product_price: sanitizeHtml(productPrice),
-    stock: sanitizeHtml(productStock),
-    product_image: productImage
-    }
+  console.log("formData:", formData);
+  const testImage = document.getElementById("file").files[0];
+  console.log("testImage:", testImage);
 
-    api.addProduct(formData)
-        .then((response) => {
-            // Réponse de l'API après l'ajout du produit
-            console.log("Réponse de l'API :", response);
-            // Mettre à jour l'affichage des produits
-            api.fetchProducts()
-                .then((products) => {
-                    allProducts = products[0];
-                    displayProducts(allProducts);
-                })
-                .catch((error) => {
-                    console.error("Error fetching products:", error);
-                });
-        })
-        .catch((error) => {
-            console.error("Error adding product:", error);
-        });
+  // Envoyer le formulaire
+  fetch("http://localhost:8080/product/add", {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  window.location.reload();
 }
 
 function handleEdit(event) {
@@ -107,4 +92,67 @@ function handleDelete(event) {
   console.log("Supprimer le produit avec l'ID:", productId);
 }
 
+// Fonction pour afficher l'image dans le popup
+function afficherPopup(imageUrl) {
+  const popupElement = document.getElementById("popup");
+  popupElement.innerHTML = `<img src="${imageUrl}" alt="Image en popup">`;
+  popupElement.style.display = "block";
+}
+
+// Fonction pour masquer le popup
+function masquerPopup() {
+  const popupElement = document.getElementById("popup");
+  popupElement.style.display = "none";
+};
+
+function showImages() {
+  const selectElement = document.getElementById("selectedImage");
+
+  // Réinitialiser le contenu du select
+  selectElement.innerHTML = '<option value="">Sélectionnez une image</option>';
+
+  // Fetch pour récupérer la liste des images depuis votre backend
+  fetch(`${HOST}/product/images`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Ajouter les options au select avec l'image comme arrière-plan
+      data.forEach((image) => {
+        const option = document.createElement("option");
+        option.value = image.filename; // Assurez-vous que cette valeur correspond à ce que vous voulez envoyer dans votre formulaire
+        option.textContent = image.filename; // Vous pouvez également afficher le nom de fichier
+        console.log("image path :", image.path);
+        option.style.backgroundImage = `url('${HOST}${image.path}')`; // Définir l'image comme arrière-plan
+        option.style.backgroundSize = "cover"; // Ajuster la taille de l'image
+        selectElement.appendChild(option); // Ajouter l'option au select
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching images:", error);
+    });
+}
+
+// Sélectionner l'élément <select>
+const selectElement = document.getElementById("selectedImage");
+
+// Ajouter un gestionnaire d'événements pour l'événement change
+selectElement.addEventListener("change", function(event) {
+  // Récupérer l'option sélectionnée
+  const selectedOption = event.target.selectedOptions[0];
+
+  // Récupérer les informations de l'image
+  const filename = selectedOption.value;
+  const imagePath = selectedOption.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+
+  // Afficher les informations de l'image dans la console
+  console.log("Nom du fichier:", filename);
+  console.log("Chemin de l'image:", imagePath);
+  if (filename === "") {
+    masquerPopup();
+    return;
+  }
+  afficherPopup(imagePath)
+});
+
+
 api.checkAdmin();
+showImages();
