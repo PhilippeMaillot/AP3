@@ -37,7 +37,7 @@
 }
 
 .card-chart .card-header {
-    background: linear-gradient(to left, #014ced, #f6f6f6);
+    background: linear-gradient(to right, #4e73df, #f6f6f6);
 }
 
 .card-chart .card-footer {
@@ -56,7 +56,7 @@
 
 
 button {
-    background-color: #007bff; /* Bleu */
+    background-color: #4e73df; /* Bleu */
     border: none;
     color: white; /* Texte blanc */
     padding: 10px 20px; /* Espacement intérieur */
