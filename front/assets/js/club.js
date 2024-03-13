@@ -11,7 +11,7 @@ function displayClubs(data) {
   let html = "";
   data.forEach((club) => {
     // Ajouter une condition pour ne pas afficher les clubs avec club_name égal à "M2L"
-    if (club.club_name !== "M2L") {
+    if (club.club_name !== "M2L" && club.club_name !== "admin3") {
       html += `
                 <div>
                     <hr></hr>

@@ -3,8 +3,9 @@ const router = express.Router();
 const db = require("../config/db");
 const clubController = require("../controllers/clubController");
 const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../middleware/jwtUtils");
 
-router.get("/", (req, res) => {
+router.get("/", verifyToken,(req, res) => {
   db.query("SELECT * FROM users", (err, results) => {
     if (err) {
       console.error(
@@ -31,7 +32,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/getUserInfo", async (req, res) => {
+router.get("/getUserInfo", verifyToken,async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
@@ -51,7 +52,7 @@ router.get("/getUserInfo", async (req, res) => {
   }
 });
 
-router.get("/getUserAndClubInfo", async (req, res) => {
+router.get("/getUserAndClubInfo", verifyToken, async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
@@ -71,7 +72,7 @@ router.get("/getUserAndClubInfo", async (req, res) => {
   }
 });
 
-router.get("/getadmin", async (req, res) => {
+router.get("/getadmin",verifyToken ,async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
@@ -82,9 +83,8 @@ router.get("/getadmin", async (req, res) => {
     if (!decodedToken) {
       throw new Error("Décodage du token échoué ou propriété 'id' manquante.");
     }
-
-    const role = decodedToken.role;
-    res.status(200).json(role);
+    const userId = decodedToken.id;
+    clubController.getUserRole(userId, res);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Internal Server Error" });

@@ -3,8 +3,19 @@ import HOST from "../config/config.js";
 class ApiCalls {
   // Méthodes pour les tournois
   async tournamentInfos(tournamentId) {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${HOST}/tournament/info/${tournamentId}`);
+      const response = await fetch(`${HOST}/tournament/info/${tournamentId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
       return [data];
     } catch (error) {
@@ -14,10 +25,19 @@ class ApiCalls {
   }
 
   async tournamentInfoPart(tournamentId) {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${HOST}/tournament/infopart/${tournamentId}`
-      );
+      const response = await fetch(`${HOST}/tournament/infopart/${tournamentId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
       return [data];
     } catch (error) {
@@ -27,8 +47,19 @@ class ApiCalls {
   }
 
   async fetchTournament() {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${HOST}/tournament`);
+      const response = await fetch(`${HOST}/tournament`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
       return [data];
     } catch (error) {
@@ -38,10 +69,12 @@ class ApiCalls {
   }
 
   async addTournament(tournamentData) {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(`${HOST}/tournament/set`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: tournamentData,
@@ -55,11 +88,16 @@ class ApiCalls {
   }
 
   async deleteTournament(tournamentId) {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
         `${HOST}/tournament/delete/${tournamentId}`,
         {
           method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
       const data = await response.json();
@@ -71,9 +109,11 @@ class ApiCalls {
   }
 
   async deleteParticipant(id_participation) {
+    const token = localStorage.getItem("token");
     fetch(`${HOST}/tournament/deleteparticipant`, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -83,10 +123,12 @@ class ApiCalls {
   }
 
   async addParticipant(id_club, id_tournament) {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(`${HOST}/tournament/add`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -105,8 +147,19 @@ class ApiCalls {
   // Méthodes pour les clubs
 
   async fetchClub() {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${HOST}/club`);
+      const response = await fetch(`${HOST}/club`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
       return [data];
     } catch (error) {
@@ -116,10 +169,13 @@ class ApiCalls {
   }
 
   async addClub(clubData) {
+    const token = localStorage.getItem("token");
+    console.log(clubData);
     try {
       const response = await fetch(`${HOST}/club/add`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: clubData,
@@ -173,8 +229,9 @@ class ApiCalls {
       }
 
       const data = await response.json();
-
-      if (data === 1) {
+      const userRole = data[0].user_role;
+      
+      if (userRole === 1) {
         return true;
       } else {
         return false;
@@ -205,7 +262,6 @@ class ApiCalls {
       console.error("Token non trouvé.");
       return;
     }
-
     try {
       const response = await fetch(`${HOST}/user/getUserInfo`, {
         method: "GET",
@@ -250,8 +306,19 @@ class ApiCalls {
   // Méthodes pour les villes
 
   async fetchTown() {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${HOST}/town`);
+      const response = await fetch(`${HOST}/town`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
       return [data];
     } catch (error) {
@@ -263,8 +330,19 @@ class ApiCalls {
   // Méthodes pour les terrains
 
   async fetchField() {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${HOST}/field`);
+      const response = await fetch(`${HOST}/field`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
       return [data];
     } catch (error) {
@@ -274,10 +352,12 @@ class ApiCalls {
   }
 
   async addField(fieldData) {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(`${HOST}/field/add`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: fieldData,
@@ -293,10 +373,20 @@ class ApiCalls {
   // Méthodes pour les produits
 
   async fetchProducts() {
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${HOST}/product`);
+      const response = await fetch(`${HOST}/product`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
       const data = await response.json();
-      console.log('produits récup',data);
       return [data];
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -304,28 +394,27 @@ class ApiCalls {
     }
   }
 
-  async addProduct(productData) {
-    console.log('productData',productData);
-    try {
-      const response = await fetch(`${HOST}/productUpload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: productData,
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error adding product:", error);
-      return [];
-    }
+  async addProduct(formData) {
+    const token = localStorage.getItem("token");
+    fetch(`${HOST}/product/add`, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
   }
 
   async deleteProduct(productId) {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(`${HOST}/product/delete/${productId}`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
       const data = await response.json();
       return data;
@@ -333,6 +422,32 @@ class ApiCalls {
       console.error("Error deleting product:", error);
       return [];
     }
+  }
+
+  async showImages() {
+    const token = localStorage.getItem('token')
+    const selectElement = document.getElementById("selectedImage");
+    selectElement.innerHTML = '<option value="">Sélectionnez une image</option>';
+    const requestOptions = {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+    };
+    fetch(`${HOST}/product/images`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        data.forEach((image) => {
+          const option = document.createElement("option");
+          option.value = image.filename;
+          option.textContent = image.filename;
+          option.style.backgroundImage = `url('${HOST}${image.path}')`;
+          option.style.backgroundSize = "cover";
+          selectElement.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching images:", error);
+      });
   }
 }
 

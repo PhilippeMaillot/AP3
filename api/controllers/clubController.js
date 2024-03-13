@@ -101,6 +101,20 @@ class ClubController {
     });
   }
 
+  static getUserRole(userId, res) {
+    model.getUserRole(db, userId, (err, results) => {
+      if (err) {
+        console.log(
+          "Erreur lors de la récupération des informations de l'utilisateur :",
+          err
+        );
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.status(200).json(results);
+      }
+    });
+  }
+
   static getUserAndClubInfo(userId, res) {
     model.getUserAndClubInfo(db, userId, (err, results) => {
       if (err) {

@@ -80,17 +80,10 @@
                             </li>
                         </ul>
                     </div>
-                </nav>
-
-                
-                <br>
-                
-                <div class="card-footer">
+                </nav>                
                     <div class="stats">
                         <h3><i class="material-icons">Tableau de bord </i></h3>
                     </div>
-                </div>
-
                 <div class="content">
                     <div class="container-fluid">
                         <div class="row">
@@ -104,11 +97,6 @@
                                         <p class="card-category">Utilisateurs</p>
                                         <h3 class="card-title">34</h3>
                                     </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="fas fa-chart-line"></i> 12% d'augmentation cette semaine
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -120,11 +108,6 @@
                                         <p class="card-category">Inscris sur Omnibet</p>
                                         <h3 class="card-title">25</h3>
                                     </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="fas fa-clock"></i> Dernier inscrit: Il y a 15 minutes
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -133,13 +116,8 @@
                                         <div class="card-icon">
                                             <i class="fas fa-trophy"></i>
                                         </div>
-                                        <p class="card-category">Tournois</p>
+                                        <p class="card-category">Tournois créés</p>
                                         <h3 class="card-title">+95</h3>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="fas fa-history"></i> Dernier tournoi: Il y a 3 jours
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -149,71 +127,54 @@
                                         <div class="card-icon">
                                             <i class="fas fa-running"></i>
                                         </div>
-                                        <p class="card-category">Tournois en cours</p>
+                                        <p class="card-category">Tournois à venir</p>
                                         <h3 class="card-title">5</h3>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="stats">
-                                            <i class="fas fa-info-circle"></i> Prochain tournoi dans: 2 jours
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="card-footer">
                             <div class="stats">
                                 <h3><i class="material-icons">Accessibilité </i></h3>
                             </div>
-                        </div>
-                        <br>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card card-chart">
-                        <div class="card-header card-header-warning">
-                            <div class="ct-chart" id="websiteViewsChart"></div>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Commandes</h4>
-                            <button onclick="window.location.href='commandes-admin.html'">Voir</button>
-                        </div>
-                        <div class="card-footer">
-                            <div class="card-footer">
-                                <div class="stats">
-                                    <i class="material-icons">dernière commande</i> il y 4 minutes !
+                <div class="container-fluid">
+                    <div class="row justify-content-between"> <!-- Utiliser justify-content-between pour aligner les colonnes -->
+                        <div class="col-md-4">
+                            <div class="card card-chart">
+                                <div class="card-header card-header-warning">
+                                    <div class="ct-chart" id="websiteViewsChart"></div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Commandes</h4>
+                                    <button onclick="window.location.href='commandes-admin.html'">Voir</button>
                                 </div>
                             </div>
+                            <!-- Contenu de la première carte -->
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-chart">
-                        <div class="card-header card-header-danger">
-                            <div class="ct-chart" id="completedTasksChart"></div>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Tournois à venir</h4>
-                            <button onclick="window.location.href='https://example.com'">Voir</button>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
+                        <div class="col-md-4">
+                            <div class="card card-chart">
+                                <div class="card-header card-header-danger">
+                                    <div class="ct-chart" id="completedTasksChart"></div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Tournois à venir</h4>
+                                    <button onclick="window.location.href='calendar.html'">Voir</button>
+                                </div>
                             </div>
+                            <!-- Contenu de la deuxième carte -->
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-chart">
-                        <div class="card-header card-header-danger">
-                            <div class="ct-chart" id="completedTasksChart"></div>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Complexe disponible</h4>
-                            <button onclick="window.location.href='https://example.com'">Voir</button>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
+                        <div class="col-md-4">
+                            <div class="card card-chart">
+                                <div class="card-header card-header-danger">
+                                    <div class="ct-chart" id="completedTasksChart"></div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Complexe disponible</h4>
+                                    <button onclick="window.location.href='https://example.com'">Voir</button>
+                                </div>
                             </div>
+                            <!-- Contenu de la troisième carte -->
                         </div>
                     </div>
                 </div>

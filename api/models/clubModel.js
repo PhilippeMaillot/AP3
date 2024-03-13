@@ -1,6 +1,6 @@
   class ClubModel {
     static createClubs(db, req, cb) {
-      const { club_name, club_adress, club_town, sport_type, Mail, password_hash } = req.body;
+      const { club_name, club_adress, club_town, sport_type, Mail, password_hash, role } = req.body;
   
       const query = "INSERT INTO clubs (club_name, club_adress, club_town, sport_type, Mail) VALUES (?, ?, (SELECT town_name FROM town WHERE town_name = ?), ?, ?)";
       db.query(query, [club_name, club_adress, club_town, sport_type, Mail], (err, result) => {
@@ -9,7 +9,8 @@
               cb(err, null);
           } else {
               const clubId = result.insertId;
-              const userData = { clubId, club_name, Mail, password_hash };
+              const userData = { clubId, club_name, Mail, password_hash, role};
+              console.log('userData :', userData);
               ClubModel.setUsers(db, userData, cb);
           }
       });
@@ -17,10 +18,10 @@
   
 
   static setUsers(db, userData, cb) {
-    const { clubId, club_name, Mail, password_hash } = userData;
+    const { clubId, club_name, Mail, password_hash, role} = userData;
 
-    const query = "INSERT INTO users (id_club, club_name, club_mail, password_hash) VALUES (?, ?, ?, ?)";
-    db.query(query, [clubId, club_name, Mail, password_hash], cb);
+    const query = "INSERT INTO users (id_club, club_name, club_mail, password_hash, user_role) VALUES (?, ?, ?, ?, ?)";
+    db.query(query, [clubId, club_name, Mail, password_hash, role], cb);
   }
 
   static getUserId(db, id_user, cb) {
@@ -53,6 +54,13 @@
         cb(err, null);
       });
   }
+
+  static getUserRole(db, userId, cb) {
+    const query = 'SELECT user_role FROM users WHERE id_user = ?';
+    db.query(query, [userId], cb);
+  }
+
+  
   static getUserAndClubInfo(db, userId, cb) {
     const query = 'SELECT * FROM users INNER JOIN clubs ON users.id_club = clubs.id_club WHERE id_user = ?';
     const promise = new Promise((resolve, reject) => {

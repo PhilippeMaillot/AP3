@@ -5,7 +5,7 @@ const multer  = require('multer')
 const path = require('path');
 const fs = require('fs');
 const uploadDir = path.join("./", 'uploads');
-console.log('uploadDir:',uploadDir);
+const { verifyToken } = require("../middleware/jwtUtils");
 multer({ dest: './uploads/' })
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,32 +19,27 @@ const upload = multer({ storage })
 
 router.get("/", productController.getAllProducts);
 
-router.post("/add", productController.addProduct);
+router.post("/add",verifyToken, productController.addProduct);
 
-router.post("/delete/:id_product", productController.deleteProduct);
+router.post("/delete/:id_product", verifyToken, productController.deleteProduct);
 
 router.post("/upload", upload.array('file'), productController.uploadProductImage);
 
-router.get('/images', (req, res) => {
+router.get('/images',verifyToken, (req, res) => {
   fs.readdir(uploadDir, (err, files) => {
       if (err) {
           console.error('Error reading upload directory:', err);
           return res.status(500).json({ error: 'Internal server error' });
       }
 
-      // Filtrer les fichiers pour ne garder que les images
       const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file));
 
-      // Créer un tableau d'objets contenant le nom et le chemin de chaque image
       const images = imageFiles.map(file => {
           return {
               filename: file,
-              path: `/uploads/${file}` // Assurez-vous d'utiliser le bon chemin vers les images
+              path: `/uploads/${file}`
           };
       });
-      console.log(images);
-
-      // Envoyer les données JSON contenant les informations sur les images
       res.status(200).json(images);
   });
 });
@@ -52,6 +47,6 @@ router.get('/images', (req, res) => {
 
 //router.post("/update", productController.updateProduct);
 
-router.get("/getProductInfo/:id_product", productController.getProductInfo);
+router.get("/getProductInfo/:id_product", verifyToken, productController.getProductInfo);
 
 module.exports = router;

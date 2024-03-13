@@ -1,6 +1,20 @@
-import ApiCalls from "./apiCalls.js"
-const api = new ApiCalls()
+import ApiCalls from "./apiCalls.js";
+const api = new ApiCalls();
 const bcrypt = dcodeIO.bcrypt;
+var role = '0';
+
+const switchInput = document.getElementById("flexSwitchCheckDefault");
+switchInput.addEventListener("change", function () {
+  if (this.checked) {
+    role = '1'
+    console.log("Le switch est activé");
+  } else {
+    role='0'
+    console.log("Le switch est désactivé");
+  }
+  console.log(role)
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const addClubForm = document.getElementById("addClubForm");
 
@@ -64,14 +78,16 @@ document.addEventListener("DOMContentLoaded", function () {
       sport_type: sanitizeHtml(sport_type),
       Mail: sanitizeHtml(Mail),
       password_hash: sanitizeHtml(bcrypt.hashSync(password, 10)),
+      role: sanitizeHtml(role),
     };
+    console.log(formData);
 
     // Convert data to JSON
     const jsonData = JSON.stringify(formData);
     console.log(jsonData);
 
     // Make a POST request using Axios
-    api.addClub(jsonData)
+    api.addClub(jsonData);
     alert("Club ajouté avec succès");
     window.location.href = "./clubs.html";
   });
@@ -79,7 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function updateTownList() {
-    api.fetchTown()
+  api
+    .fetchTown()
     .then((towns) => {
       const clubTown = document.getElementById("clubTown");
       // Ajouter une option par défaut

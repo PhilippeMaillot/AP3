@@ -81,6 +81,7 @@ class ProductController {
           console.error(err);
           res.status(500).json({ error: "Erreur serveur" });
         } else {
+          console.log(results)
           res.status(200).json(results);
         }
       });
