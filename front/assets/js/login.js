@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.message === "User logged in") {
           const token = data.token;
           localStorage.setItem("token", token);
-          window.location.href = "./index.html";
+          window.location.href = "/front/index.html";
         } else if (data.message === "Mot de passe incorrect") {
           var message = "Mot de passe incorrect !";
           afficherPopup(message);
