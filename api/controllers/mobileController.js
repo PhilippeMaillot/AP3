@@ -1,5 +1,6 @@
 const model = require("../models/mobileModel");
 const bcrypt = require('bcrypt');
+const { generateToken } = require("../middleware/jwtUtils");
 
 class MobileController {
     static getAllUsers = async (req, res) => {
@@ -49,21 +50,37 @@ class MobileController {
         }
     };
     
-    static login = async (req, res) => {
+    static async login(req, res) {
         try {
-            const { email, password } = req.body;
-            const results = await model.login(email);
-            const hashedPassword = results[0].password;
-            const isPasswordValid = await bcrypt.compare(password, hashedPassword);
-            if (!isPasswordValid) {
-                throw new Error("Mot de passe incorrect.");
+            console.log(req.body);
+          model.login(req.body.email, async (err, results) => {
+            if (err) {
+              res.status(500).json({ err: "Erreur serveur" });
+            } else {
+              if (results.length === 0) {
+                res.status(404).json({ message: "Utilisateur non trouvé" });
+              } else {
+                const user = results[0];
+                console.log(user);
+                const passwordMatch = await bcrypt.compare(
+                  req.body.password_hash,
+                  user.password_hash
+                );
+                if (passwordMatch) {
+                  const token = generateToken(user);
+                  console.log("c carré");
+                  res.status(200);
+                  res.json({ message: "User logged in", token });
+                } else {
+                  res.status(401).json({ message: "Mot de passe incorrect" });
+                }
+              }
             }
-            res.status(200).json(results);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Internal Server Error" });
+          });
+        } catch (err) {
+          res.status(500).json({ err: "Erreur serveur" });
         }
-    };
+      }
 
     static updateValue = async (req, res) => {
         try {

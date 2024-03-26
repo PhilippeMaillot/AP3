@@ -9,6 +9,8 @@ class MobileModel {
 
     static login(email, cb) {
         const query = 'SELECT * FROM mobile_user WHERE email = ?';
+        console.log(email);
+        console.log(query);
         db.query(query, [email], cb);
     }
 
