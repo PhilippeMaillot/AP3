@@ -5,7 +5,7 @@ class MobileModel {
     static getAllUsers = async (cb) => {
         const query = "SELECT * FROM mobile_user";
         db.query(query, cb);
-    };
+      };
 
     static addUser = async (user_f_name, user_name, email, password_hash, role, balance) => {
         const query = "INSERT INTO mobile_user (user_f_name, user_name, email, password_hash, role, balance) VALUES (?, ?, ?, ?, ?, ?)";
