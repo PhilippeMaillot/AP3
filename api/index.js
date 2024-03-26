@@ -41,7 +41,7 @@ app.use('/field',verifyToken, fieldRouter);
 app.use('/training',verifyToken, trainingRouter);
 app.use('/tournament',verifyToken, tournamentRouter);
 app.use('/town',verifyToken, townRouter);
-app.use('/mobileuser',verifyToken, mobileUserRouter);
+app.use('/mobileuser', mobileUserRouter);
 app.use('/bet',verifyToken, betRouter);
 app.use('/product', productRouter);
 app.use('/cart',verifyToken, cartRouter);

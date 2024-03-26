@@ -7,6 +7,11 @@ class MobileModel {
         db.query(query, cb);
       };
 
+    static login(email, cb) {
+        const query = 'SELECT * FROM mobile_user WHERE email = ?';
+        db.query(query, [email], cb);
+    }
+
     static addUser = async (user_f_name, user_name, email, password_hash, role, balance) => {
         const query = "INSERT INTO mobile_user (user_f_name, user_name, email, password_hash, role, balance) VALUES (?, ?, ?, ?, ?, ?)";
         await db.query(query, [user_f_name, user_name, email, password_hash, role, balance]);
