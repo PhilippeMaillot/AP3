@@ -59,11 +59,10 @@ function handleAdd(event) {
     product_title: document.getElementById("productTitle").value,
     product_description: document.getElementById("productDescription").value,
     product_price: document.getElementById("productPrice").value,
-    stock: document.getElementById("productStock").value,
     product_img: document.getElementById("selectedImage").value,
+    stock: document.getElementById("productStock").value
   };
-  api.addProduct(formData);
-  window.location.reload();
+  api.addProduct(formData)
 }
 
 function handleEdit(event) {

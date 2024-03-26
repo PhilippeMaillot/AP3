@@ -53,6 +53,9 @@
     border-top: 1px solid #ddd;
 }
 
+.card-chart {
+    border-radius: 10%;
+}
 
 
 button {
@@ -67,10 +70,15 @@ button {
     margin: 4px 2px;
     cursor: pointer; /* Change le curseur en main lors du survol */
     transition-duration: 0.4s; /* Durée de l'effet de survol */
-    border-radius: 10px; /* Bords arrondis */
+    border-radius: 15%; /* Bords arrondis */
 }
 
 button:hover {
     background-color: #0069d9; /* Bleu plus foncé lors du survol */
     color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #858796;
 }

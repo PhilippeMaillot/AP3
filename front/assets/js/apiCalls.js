@@ -61,6 +61,7 @@ class ApiCalls {
         throw new Error(`Erreur HTTP : ${response.status}`);
       }
       const data = await response.json();
+      console.log("data (tournament) : ", data);
       return [data];
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -188,7 +189,7 @@ class ApiCalls {
     }
   }
 
-  // Méthodes pour les utilisateurs
+  // Méthodes pour les utilisateurs (omnimatch)
 
   async getUserAndClubInfo() {
     const token = localStorage.getItem("token");
@@ -230,7 +231,7 @@ class ApiCalls {
 
       const data = await response.json();
       const userRole = data[0].user_role;
-      
+
       if (userRole === 1) {
         return true;
       } else {
@@ -248,7 +249,7 @@ class ApiCalls {
     try {
       const adminStatus = await this.isAdmin();
       if (!adminStatus) {
-        window.location.href = "./index.html";
+        window.location.href = "./index-admin.html";
       }
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
@@ -297,6 +298,31 @@ class ApiCalls {
       });
       const data = await response.json();
       return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return [];
+    }
+  }
+
+  // Méthodes pour les utilisateurs (omnibet)
+
+  async fetchUsers() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(`${HOST}/mobileuser`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("data : ", data);
+      return [data];
     } catch (error) {
       console.error("Error fetching data:", error);
       return [];
@@ -396,14 +422,27 @@ class ApiCalls {
 
   async addProduct(formData) {
     const token = localStorage.getItem("token");
-    fetch(`${HOST}/product/add`, {
-    method: "POST",
-    body: JSON.stringify(formData),
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  })
+    try {
+      const response = await fetch(`${HOST}/product/add`, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'ajout du produit.');
+      }
+      const responseData = await response.json();
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+      return responseData;
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du produit :', error);
+      throw error;
+    }
   }
 
   async deleteProduct(productId) {
@@ -430,7 +469,7 @@ class ApiCalls {
     selectElement.innerHTML = '<option value="">Sélectionnez une image</option>';
     const requestOptions = {
       headers: {
-          'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
     };
     fetch(`${HOST}/product/images`, requestOptions)

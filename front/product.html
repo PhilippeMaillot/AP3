@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css?h=97380e22c8933e9aa79cbc2390b9f15a">
     <link rel="stylesheet" href="assets/css/Nunito.css?h=dac2d28453f0bec857bdabd2af0b225e">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="/front/assets/css/product.css">
+    <link rel="stylesheet" href="./assets/css/product.css">
     </head>
 
     <body id="page-top">
         <div id="wrapper">
             <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
-                <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="./index.html"><img src="assets/img/OM-icon-blanc.png?h=34bfc81e60d9a1fe5e79bec1f502c275" width="40">
+                <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="./index-admin.html"><img src="assets/img/OM-icon-blanc.png?h=34bfc81e60d9a1fe5e79bec1f502c275" width="40">
                         <div class="sidebar-brand-text mx-3"><img src="assets/img/OM-logo-sans-icon-blanc.png?h=959fcd48a78919bcbf36247220f4ad3f" width="110"></div>
                     </a>
                     <hr class="sidebar-divider my-0">
                     <ul class="navbar-nav text-light" id="accordionSidebar">
-                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="index-admin.html"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="tournament.html"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-square">
                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"></path>
                                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
@@ -61,7 +61,7 @@
                                             <img class="border rounded-circle img-profile" src="assets/img/avatars/m2l-icon.png?h=c5166867f10a4e454b5b2ae8d63268b3">
                                         </a>
                                         <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                                            <a class="dropdown-item" href="/front/profile.html">
+                                            <a class="dropdown-item" href="./profile.html">
                                                 <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile
                                             </a>
                                             <div class="dropdown-divider"></div>
@@ -148,7 +148,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="row">
-                                                        <form action="http://localhost:8080/product/upload" id="uploadImageForm" method="POST" enctype="multipart/form-data">
+                                                        <form action="http://51.44.17.249:8080/product/upload" id="uploadImageForm" method="POST" enctype="multipart/form-data">
                                                             <input class="form-control" type="file" id="file" name="file" accept="image/*" placeholder="Image" required>
                                                             <button class="btn btn-primary btn-sm" type="submit">Uploader</button>
                                                         </form>
