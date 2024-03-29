@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../config/db');
 const { verifyToken } = require('../middleware/jwtUtils');
 
-router.get('/', verifyToken, (req, res) => {
+router.get('/', (req, res) => {
     // Récupérez la liste des noms de table depuis votre base de données
     db.query("SHOW TABLES", (err, results) => {
       if (err) {

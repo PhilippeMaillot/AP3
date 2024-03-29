@@ -5,7 +5,7 @@ const clubController = require("../controllers/clubController");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../middleware/jwtUtils");
 
-router.get("/", verifyToken,(req, res) => {
+router.get("/",(req, res) => {
   db.query("SELECT * FROM users", (err, results) => {
     if (err) {
       console.error(

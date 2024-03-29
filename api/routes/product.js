@@ -47,6 +47,6 @@ router.get('/images',verifyToken, (req, res) => {
 
 //router.post("/update", productController.updateProduct);
 
-router.get("/getProductInfo/:id_product", verifyToken, productController.getProductInfo);
+router.get("/getProductInfo/:id_product", productController.getProductInfo);
 
 module.exports = router;

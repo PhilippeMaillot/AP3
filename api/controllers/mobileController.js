@@ -84,7 +84,7 @@ class MobileController {
 
     static updateValue = async (req, res) => {
         try {
-            const { id_user, user_f_name, user_name, email, password_hash, role, balance } = req.body;
+            const { id_user, user_f_name, user_name, email, password_hash, role, balance, img } = req.body;
     
             const updatedFields = [];
     
@@ -117,6 +117,10 @@ class MobileController {
                 await model.updateBalance(id_user, balance);
                 updatedFields.push("balance");
             }
+            if (img) {
+                await model.userImg(id_user, img);
+                updatedFields.push("img");
+            }
 
             res.status(200).json({ message: `La ou les donnée(s) suivante(s) a/ont été mise(s) à jour : ${updatedFields.join(', ')}` });
         } catch (error) {
@@ -135,6 +139,17 @@ class MobileController {
             res.status(500).json({ error: "Internal Server Error" });
         }
     };
+
+    static uploadAvatar = async (req, res) => {
+        try {
+            const { id_user, img } = req.body;
+            await model.userImg(id_user, img);
+            res.status(200).json({ message: "L'avatar a bien été mis à jour !" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    }
 }
 
 module.exports = MobileController;

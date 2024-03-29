@@ -59,6 +59,11 @@ class MobileModel {
         const query = "DELETE FROM mobile_user WHERE id_user = ?";
         await db.query(query, [id_user]);
     };
+
+    static userImg = async (id_user, img) => {
+        const query = "UPDATE mobile_user SET img = ? WHERE id_user = ?";
+        await db.query(query, [img, id_user]);
+    }
 }
 
 module.exports = MobileModel;
