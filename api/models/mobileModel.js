@@ -1,6 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 
+
 class MobileModel {
     static getAllUsers = async (cb) => {
         const query = "SELECT * FROM mobile_user";

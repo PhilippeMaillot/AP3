@@ -141,6 +141,51 @@ class TournamentController {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
+  static getAllComments = async (req, res) => {
+  try {
+    const { id_tournament } = req.params;
+    const comments = await model.getAllComments(id_tournament);
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+static addComment = async (req, res) => {
+  try {
+    const { id_tournament } = req.params;
+    const { commentaire } = req.body;
+    await model.addComment(id_tournament, commentaire);
+    res.status(200).json({ message: "Commentaire ajouté avec succès !" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+static updateComment = async (req, res) => {
+  try {
+    const { id_tournament, id_comment } = req.params;
+    const { commentaire } = req.body;
+    await model.updateComment(id_tournament, id_comment, commentaire);
+    res.status(200).json({ message: "Commentaire mis à jour avec succès !" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+static deleteComment = async (req, res) => {
+  try {
+    const { id_tournament, id_comment } = req.params;
+    await model.deleteComment(id_tournament, id_comment);
+    res.status(200).json({ message: "Commentaire supprimé avec succès !" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
   static deleteParticipant = async (req, res) => {
     try {

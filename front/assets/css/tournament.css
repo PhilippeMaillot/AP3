@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /* Style pour le popup */
 .popup {
     display: none; /* Initialement caché */
@@ -35,3 +36,38 @@
     to { opacity: 0; }
   }
   
+=======
+
+    .addbtn {
+        background-color: #4e73df;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .addbtn {
+        /* Ajoutez une transition pour rendre l'animation plus fluide */
+        transition: transform 0.3s ease;
+      }
+      
+      .addbtn:hover {
+        /* Utilisez une animation au lieu d'une transformation directe */
+        animation: scaleUpDown 1s infinite;
+      }
+      
+      /* Définissez l'animation */
+      @keyframes scaleUpDown {
+        0%, 100% {
+          transform: scale(1); /* Commencez et terminez à la taille normale */
+        }
+        50% {
+          transform: scale(1.1); /* À mi-chemin de l'animation, grossissez l'élément */
+        }
+      }
+>>>>>>> Stashed changes
