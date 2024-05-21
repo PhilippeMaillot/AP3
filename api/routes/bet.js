@@ -10,6 +10,8 @@ router.post("/delete", betController.delete);
 
 router.post("/update", betController.update);
 
-router.get("/info", betController.getInfo);
+router.get("/info/:id_bet", betController.getInfo);
+
+router.get("/user/:id_user", betController.getByUser);
 
 module.exports = router;

@@ -19,7 +19,8 @@ class BetController {
 
     static add = async (req, res) => {
         try {
-            const { id_tournament, id_club, bet_amount, bet_prediction, id_user } = req.body;                
+            const { id_tournament, id_club, bet_amount, bet_prediction, id_user } = req.body;  
+            console.log(req.body);              
             await model.add(id_tournament, id_club, bet_amount, bet_prediction, id_user);
             res.status(200).json({ message: "Le pari a bien été ajouté !" });
         } catch (error) {
@@ -73,7 +74,7 @@ class BetController {
 
     static getInfo = async (req, res) => {
         try {
-            const { id_bet } = req.body;
+            const { id_bet } = req.params;
             model.getInfo(id_bet, (err, results) => {
                 if (err) {
                     console.error(err);
@@ -87,6 +88,23 @@ class BetController {
             res.status(500).json({ error: "Internal Server Error" });
         }
     };
+
+    static getByUser = async (req, res) => {
+        try {
+            const { id_user } = req.params;
+            model.getByUser(id_user, (err, results) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({ error: "Erreur serveur" });
+                } else {
+                    res.status(200).json(results);
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    }
 }
 
 module.exports = BetController;

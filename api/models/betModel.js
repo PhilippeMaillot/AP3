@@ -40,6 +40,11 @@ class BetModel {
         const query = "DELETE FROM bet WHERE id_bet = ?";
         await db.query(query, [id_bet]);
     };
+
+    static getByUser = async (id_user, cb) => {
+        const query = "SELECT * FROM bet WHERE id_user = ?";
+        db.query(query, [id_user], cb);
+    };
 }
 
 module.exports = BetModel;
