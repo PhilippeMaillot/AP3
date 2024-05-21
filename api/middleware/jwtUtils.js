@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function generateToken(user) {
+function generateToken(user, type = 'default') {
   const payload = {
     id: user.id_user,
     id_club: user.id_club,
@@ -10,8 +10,14 @@ function generateToken(user) {
 
   const secret = process.env.MY_SECRET_KEY;
   const options = {
-    expiresIn: '4h', // Token will expire in 4 hour
+    expiresIn: '4h', // Token will expire in 4 hours by default
   };
+
+  if (type === 'mobile') {
+    // Custom options for mobile token
+    options.expiresIn = '7d'; // Token will expire in 7 days for mobile
+    // Add any other custom payload for mobile token here if needed
+  }
 
   return jwt.sign(payload, secret, options);
 }
