@@ -20,7 +20,7 @@ class MobileModel {
     };
 
     static getUserInfo = (id_user, cb) => {
-        console.log(id_user)
+        console.log(id)
         const query = "SELECT user_name FROM mobile_user WHERE id_user = ?";
 
         db.query(query, [id_user], cb);
@@ -33,6 +33,7 @@ class MobileModel {
     };
 
     static updateUserName = async (id_user, newUserName) => {
+        
         const query = "UPDATE mobile_user SET user_name = ? WHERE id_user = ?";
         await db.query(query, [newUserName, id_user]);
     };

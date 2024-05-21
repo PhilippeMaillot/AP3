@@ -42,6 +42,7 @@ class MobileController {
         console.log("Fetching user information...");
         try {
             const { id_user } = req.params;
+
             console.log(id_user)
 
             model.getUserInfo(id_user, (err, results) => {
@@ -92,53 +93,54 @@ model.login(email, async (err, results) => {
   }
   
     static updateValue = async (req, res) => {
-        console.log("Updating user information...");
-        try {
-            const { id_user, user_f_name, user_name, email, password_hash, role, balance, img } = req.body;
+  console.log("Updating user information...");
+  try {
+    const { id_user, user_f_name, user_name, email, password_hash, role, balance, img } = req.body;
 
-            const updatedFields = [];
+    const updatedFields = [];
 
-            if (user_f_name) {
-                await model.updateFName(id_user, user_f_name);
-                updatedFields.push("user_f_name");
-            }
+    if (user_f_name) {
+      await model.updateFName(id_user, user_f_name);
+      updatedFields.push("user_f_name");
+    }
 
-            if (user_name) {
-                await model.updateUserName(id_user, user_name);
-                updatedFields.push("user_name");
-            }
+    if (user_name) {
+      await model.updateUserName(id_user, user_name);
+      updatedFields.push("user_name");
+    }
 
-            if (email) {
-                await model.updateEmail(id_user, email);
-                updatedFields.push("email");
-            }
+    if (email) {
+      await model.updateEmail(id_user, email);
+      updatedFields.push("email");
+    }
 
-            if (password_hash) {
-                await model.updatePassword(id_user, password_hash);
-                updatedFields.push("password");
-            }
+    if (password_hash) {
+      await model.updatePassword(id_user, password_hash);
+      updatedFields.push("password");
+    }
 
-            if (role) {
-                await model.updateRole(id_user, role);
-                updatedFields.push("role");
-            }
+    if (role) {
+      await model.updateRole(id_user, role);
+      updatedFields.push("role");
+    }
 
-            if (balance) {
-                await model.updateBalance(id_user, balance);
-                updatedFields.push("balance");
-            }
-            if (img) {
-                await model.userImg(id_user, img);
-                updatedFields.push("img");
-            }
+    if (balance) {
+      await model.updateBalance(id_user, balance);
+      updatedFields.push("balance");
+    }
+    if (img) {
+      await model.userImg(id_user, img);
+      updatedFields.push("img");
+    }
 
-            console.log("User information updated successfully.");
-            res.status(200).json({ message: `La ou les donnée(s) suivante(s) a/ont été mise(s) à jour : ${updatedFields.join(', ')}` });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Internal Server Error" });
-        }
-    };
+    console.log("User information updated successfully.");
+    console.log(`Updated fields: ${updatedFields.join(', ')}`); // Log des champs mis à jour
+    res.status(200).json({ message: `La ou les donnée(s) suivante(s) a/ont été mise(s) à jour : ${updatedFields.join(', ')}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
     static deleteUser = async (req, res) => {
         console.log("Deleting user...");
