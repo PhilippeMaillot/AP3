@@ -111,6 +111,7 @@ model.login(email, async (err, results) => {
 
     if (email) {
       await model.updateEmail(id_user, email);
+      console.log(req.body);
       updatedFields.push("email");
     }
 
