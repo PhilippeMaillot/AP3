@@ -35,15 +35,15 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
-app.use('/club', verifyToken, clubRouter);
-app.use('/field', verifyToken, fieldRouter);
-app.use('/training', verifyToken, trainingRouter);
-app.use('/tournament', verifyToken, tournamentRouter);
-app.use('/town', verifyToken, townRouter);
+app.use('/club',  clubRouter);
+app.use('/field',  fieldRouter);
+app.use('/training',  trainingRouter);
+app.use('/tournament',  tournamentRouter);
+app.use('/town',  townRouter);
 app.use('/mobileuser', mobileUserRouter); // Ne pas utiliser verifyToken middleware ici
-app.use('/bet', verifyToken, betRouter);
+app.use('/bet', betRouter);
 app.use('/product', productRouter);
-app.use('/cart', verifyToken, cartRouter);
+app.use('/cart',  cartRouter);
 
 app.listen(8080, () => {
   console.log('Serveur à l\'écoute');

@@ -19,10 +19,13 @@ class MobileModel {
         await db.query(query, [user_f_name, user_name, email, password_hash, role, balance]);
     };
 
-    static getUserInfo = async (id_user, cb) => {
-        const query = "SELECT * FROM mobile_user WHERE id_user = ?";
+    static getUserInfo = (id_user, cb) => {
+        console.log(id_user)
+        const query = "SELECT user_name FROM mobile_user WHERE id_user = ?";
+
         db.query(query, [id_user], cb);
     };
+
 
     static updateFName = async (id_user, newFName) => {
         const query = "UPDATE mobile_user SET user_f_name = ? WHERE id_user = ?";

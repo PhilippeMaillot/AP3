@@ -20,7 +20,8 @@ router.get("/", mobileController.getAllUsers);
 router.post("/add", mobileController.addUser);
 router.post("/delete", mobileController.deleteUser);
 router.post("/update", mobileController.updateValue);
-router.get("/getUserInfo", mobileController.getUserInfo);
+router.get("/getUserInfo/:id_user", mobileController.getUserInfo);
+
 
 // Ajoutez la route de connexion (login) ici
 router.post("/login", mobileController.login);

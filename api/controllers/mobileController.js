@@ -12,6 +12,7 @@ class MobileController {
                     res.status(500).json({ error: "Erreur serveur" });
                 } else {
                     console.log("All users fetched successfully.");
+                    console.log(results)
                     res.status(200).json(results);
                 }
             });
@@ -40,7 +41,9 @@ class MobileController {
     static getUserInfo = async (req, res) => {
         console.log("Fetching user information...");
         try {
-            const { id_user } = req.body;
+            const { id_user } = req.params;
+            console.log(id_user)
+
             model.getUserInfo(id_user, (err, results) => {
                 if (err) {
                     console.error(err);
