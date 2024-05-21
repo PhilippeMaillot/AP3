@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken } = require("../middleware/jwtUtils");
+
 const mobileController = require("../controllers/mobileController");
 const path = require('path');
 const multer  = require('multer')
@@ -20,6 +20,7 @@ const upload = multer({ storage })
 router.get("/", mobileController.getAllUsers);
 
 router.post("/add", mobileController.addUser);
+
 
 router.post("/delete", mobileController.deleteUser);
 
