@@ -20,8 +20,8 @@ class MobileModel {
     };
 
     static getUserInfo = (id_user, cb) => {
-        console.log(id)
-        const query = "SELECT user_name FROM mobile_user WHERE id_user = ?";
+        console.log(id_user)
+        const query = "SELECT user_name, balance FROM mobile_user WHERE id_user = ?";
 
         db.query(query, [id_user], cb);
     };

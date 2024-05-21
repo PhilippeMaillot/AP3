@@ -95,7 +95,9 @@ model.login(email, async (err, results) => {
     static updateValue = async (req, res) => {
   console.log("Updating user information...");
   try {
-    const { id_user, user_f_name, user_name, email, password_hash, role, balance, img } = req.body;
+    const { id_user, user_f_name, user_name, email, password_hash, role, new_balance, img } = req.body;
+    console.log("ici le req body : " , req.body)
+    console.log("ici balance : " , new_balance)
 
     const updatedFields = [];
 
@@ -124,8 +126,9 @@ model.login(email, async (err, results) => {
       updatedFields.push("role");
     }
 
-    if (balance) {
-      await model.updateBalance(id_user, balance);
+    if (new_balance) {
+        console.log("balance for user id : ", new_balance, id_user)
+      await model.updateBalance(id_user, new_balance);
       updatedFields.push("balance");
     }
     if (img) {
