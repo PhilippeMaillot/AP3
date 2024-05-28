@@ -14,4 +14,6 @@ router.get("/info/:id_bet", betController.getInfo);
 
 router.get("/user/:id_user", betController.getByUser);
 
+router.post("/process", betController.processBets);
+
 module.exports = router;
