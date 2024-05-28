@@ -71,6 +71,24 @@ class CartController {
             res.status(500).json({ error: "Internal Server Error" });
         }
     };
+
+    static getCart = async (req, res) => {
+        try {
+            const { id_user } = req.params;
+            console.log(id_user)
+            model.getCart(id_user, (err, results) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({ error: "Erreur serveur" });
+                } else {
+                    res.status(200).json(results);
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    };
 }
 
 module.exports = CartController;

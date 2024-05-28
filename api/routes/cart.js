@@ -10,4 +10,6 @@ router.post("/delete/:id_cart_item", cartController.deleteCart);
 
 router.get("/getCartInfo/:id_user", cartController.getCartInfo);
 
+router.get("/get/:id_user", cartController.getCart);
+
 module.exports = router;
