@@ -51,6 +51,11 @@ class cartModel {
         `;
         db.query(query, [id_user], cb);
     };
+
+    static getCart = async (id_user, cb) => {
+        const query = "SELECT id_cart FROM cart WHERE id_user = ?";
+        db.query(query, [id_user], cb);
+    };
 }
 
 module.exports = cartModel;
