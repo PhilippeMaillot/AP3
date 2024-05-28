@@ -6,9 +6,9 @@ class cartModel {
         await db.query(query, [id_cart, id_product, item_quantity]);
     };
 
-    static getCartItemIdByProductId = async (id_product, cb) => {
-        const query = "SELECT id_cart_item FROM cart_items WHERE id_product = ?";
-        db.query(query, [id_product], (err, result) => {
+    static getCartItemIdByProductId = async (id_product, id_cart, cb) => {
+        const query = "SELECT id_cart_item FROM cart_items WHERE id_product = ? AND id_cart = ?";
+        db.query(query, [id_product, id_cart], (err, result) => {
             if (err) {
                 cb(err, null);
             } else {
@@ -21,18 +21,34 @@ class cartModel {
         });
     };
 
-    static updateCartItemQuantity = async (id_cart_item, operation, cb) => {
+    static updateCartItemQuantity = async (id_cart_item, id_cart, operation, cb) => {
         let query;
         if (operation === "add") {
-            query = "UPDATE cart_items SET item_quantity = item_quantity + 1 WHERE id_cart_item = ?";
+            query = "UPDATE cart_items SET item_quantity = item_quantity + 1 WHERE id_cart_item = ? AND id_cart = ?";
         } else if (operation === "remove") {
-            query = "UPDATE cart_items SET item_quantity = item_quantity - 1 WHERE id_cart_item = ?";
+            query = "UPDATE cart_items SET item_quantity = item_quantity - 1 WHERE id_cart_item = ? AND id_cart = ?";
         } else {
             const error = new Error("Opération invalide");
             cb(error, null);
             return;
         }
-        db.query(query, [id_cart_item], cb);
+        console.log("query : ", query)
+        db.query(query, [id_cart_item, id_cart], cb);
+    };
+
+    static updateCartItemQuantity2 = async (id_cart_item, id_cart, operation, cb) => {
+        let query;
+        if (operation === "add") {
+            query = "UPDATE cart_items SET item_quantity = item_quantity + 1 WHERE id_product = ? AND id_cart = ?";
+        } else if (operation === "remove") {
+            query = "UPDATE cart_items SET item_quantity = item_quantity - 1 WHERE id_product = ? AND id_cart = ?";
+        } else {
+            const error = new Error("Opération invalide");
+            cb(error, null);
+            return;
+        }
+        console.log("query : ", query)
+        db.query(query, [id_cart_item, id_cart], cb);
     };
 
 
