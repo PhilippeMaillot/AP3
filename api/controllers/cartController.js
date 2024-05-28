@@ -2,18 +2,21 @@ const model = require("../models/cartModel");
 
 class CartController {
     static addCart = async (req, res) => {
-        console.log(req.body);
+        console.log("voici le body : ",req.body);
         try {
-            const { id_product } = req.body;
-            model.getCartItemIdByProductId(id_product, async (err, id_cart) => {
+            const { id_product , id_cart } = req.body;
+            console.log("voici l'id du produit : ",id_product);
+            model.getCartItemIdByProductId(id_product, id_cart, async (err, id_cart_item) => {
                 if (err) {
                     console.error(err);
                     res.status(500).json({ error: "Internal Server Error" });
                 } else {
-                    if (id_cart) {
+                    if (id_cart_item) {
+                        console.log("on passe dedans")
+                        console.log(id_cart_item)
                         try {
                             const operation = "add"
-                            await model.updateCartItemQuantity(id_cart, operation);
+                            await model.updateCartItemQuantity(id_cart_item, id_cart, operation);
                             res.status(200).json({ message: "La quantité de l'article a été mise à jour dans le panier !" });
                         } catch (error) {
                             console.error(error);
@@ -33,10 +36,10 @@ class CartController {
     };
 
     static updateCartItemQuantity = async (req, res) => {
-        const { id_cart_item } = req.params;
-        const { operation } = req.body
+        const { id_cart_item, id_cart, operation} = req.body;
+        console.log("voici le body lol: ",req.body);
         try {
-            await model.updateCartItemQuantity(id_cart_item, operation);
+            await model.updateCartItemQuantity2(id_cart_item, id_cart ,operation);
             res.status(200).json({ message: "La quantité de l'article a été mise à jour dans le panier !" });
         } catch (error) {
             console.error(error);
@@ -45,9 +48,11 @@ class CartController {
     };
 
     static deleteCart = async (req, res) => {
+        console.log("on passe dedans (suppression du produit du panier)")
         try {
-            const { id_cart } = req.params;
-            await model.deleteCart(id_cart);
+            const { id_cart_item } = req.params;
+            console.log("voici l'id du panier : ",id_cart_item)
+            await model.deleteCartItem(id_cart_item);
             res.status(200).json({ message: "Le produit a bien été supprimé du panier !" });
         } catch (error) {
             console.error(error);
@@ -73,6 +78,8 @@ class CartController {
     };
 
     static getCart = async (req, res) => {
+        console.log("on passe dedans")
+        console.log(req.params)
         try {
             const { id_user } = req.params;
             console.log(id_user)
