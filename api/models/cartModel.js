@@ -72,6 +72,12 @@ class cartModel {
         const query = "SELECT id_cart FROM cart WHERE id_user = ?";
         db.query(query, [id_user], cb);
     };
+
+    static deleteAllItems = async (id_user) => {
+        console.log("on passe dedans (suppression de tous les produits du panier)")
+        const query = "DELETE FROM cart_items WHERE id_cart IN (SELECT id_cart FROM cart WHERE id_user = ?)";
+        await db.query(query, [id_user]);
+    };
 }
 
 module.exports = cartModel;

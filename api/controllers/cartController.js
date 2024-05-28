@@ -96,6 +96,17 @@ class CartController {
             res.status(500).json({ error: "Internal Server Error" });
         }
     };
+
+    static deleteAllItems = async (req, res) => {
+        try {
+            const { id_user } = req.params;
+            await model.deleteAllItems(id_user);
+            res.status(200).json({ message: "Tous les produits ont bien été supprimés du panier !" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    };
 }
 
 module.exports = CartController;
