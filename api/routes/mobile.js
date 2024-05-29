@@ -21,6 +21,7 @@ router.post("/add", mobileController.addUser);
 router.post("/delete", mobileController.deleteUser);
 router.post("/update", mobileController.updateValue);
 router.get("/getUserInfo/:id_user", mobileController.getUserInfo);
+router.post("/updateBalance", mobileController.updateUserBalance);
 
 
 // Ajoutez la route de connexion (login) ici

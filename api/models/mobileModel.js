@@ -5,15 +5,15 @@ class MobileModel {
     static getAllUsers = async (cb) => {
         const query = "SELECT * FROM mobile_user";
         db.query(query, cb);
-      };
+    };
 
     static login(email, cb) {
-        const query = 'SELECT * FROM mobile_user WHERE email = ?';
+        const query = 'SELECT id_user, email, password_hash FROM mobile_user WHERE email = ?';
         console.log(email);
         console.log(query);
         db.query(query, [email], cb);
     }
-
+    
     static addUser = async (user_f_name, user_name, email, password_hash, role, balance) => {
         const query = "INSERT INTO mobile_user (user_f_name, user_name, email, password_hash, role, balance) VALUES (?, ?, ?, ?, ?, ?)";
         await db.query(query, [user_f_name, user_name, email, password_hash, role, balance]);
@@ -26,14 +26,12 @@ class MobileModel {
         db.query(query, [id_user], cb);
     };
 
-
     static updateFName = async (id_user, newFName) => {
         const query = "UPDATE mobile_user SET user_f_name = ? WHERE id_user = ?";
         await db.query(query, [newFName, id_user]);
     };
 
     static updateUserName = async (id_user, newUserName) => {
-        
         const query = "UPDATE mobile_user SET user_name = ? WHERE id_user = ?";
         await db.query(query, [newUserName, id_user]);
     };

@@ -56,7 +56,12 @@ class BetModel {
   };
 
   static getByUser = async (id_user, cb) => {
-    const query = "SELECT * FROM bet WHERE id_user = ?";
+    const query = `
+      SELECT bet.*, tournament.tournament_name
+      FROM bet
+      JOIN tournament ON bet.id_tournament = tournament.id_tournament
+      WHERE bet.id_user = ?
+    `;
     db.query(query, [id_user], cb);
   };
 
